@@ -1,25 +1,20 @@
 #include <GL/gl.h>
-#include <SDL/SDL.h>
 
 #include "draw.h"
 #include "menu.h"
-#include "global.h"
 
-void drawImage(void *image, int x, int y, void *draw_rect)
+void drawImage(t_Image *image, int x, int y, SDL_Rect *draw_rect)
 {
-    t_Image *image__ = image;
-    SDL_Rect *draw_rect__ = draw_rect;
-
     SDL_Rect pos;
     pos.x = x;
     pos.y = y;
 
     SDL_Rect rect;
-    if (draw_rect__) {
-        rect.x = draw_rect__->x;
-        rect.y = draw_rect__->y;
-        rect.w = draw_rect__->w;
-        rect.h = draw_rect__->h;
+    if (draw_rect) {
+        rect.x = draw_rect->x;
+        rect.y = draw_rect->y;
+        rect.w = draw_rect->w;
+        rect.h = draw_rect->h;
     }
     else {
         rect.x = 0;
@@ -39,13 +34,13 @@ void drawImage(void *image, int x, int y, void *draw_rect)
         r.y = rect.y-pos.y;
         pos.y += r.y;
     }
-    if (pos.x-r.x+image__->w < rect.x+rect.w) r.w = image__->w;
+    if (pos.x-r.x+image->w < rect.x+rect.w) r.w = image->w;
     else  {
         int t = rect.x+rect.w-pos.x+r.x;
         if (t < 0)  return;
         else r.w = t;
     }
-    if (pos.y-r.y+image__->h < rect.y+rect.h) r.h = image__->h;
+    if (pos.y-r.y+image->h < rect.y+rect.h) r.h = image->h;
     else  {
         int t = rect.y+rect.h-pos.y+r.y;
         if (t < 0)  return;
@@ -53,24 +48,24 @@ void drawImage(void *image, int x, int y, void *draw_rect)
     }
 
     if (r.x > 0) {
-        if (r.x > image__->w) return;
+        if (r.x > image->w) return;
         else r.w-=r.x;
     }
 
 
     if (r.y > 0) {
-        if (r.y > image__->h) return;
+        if (r.y > image->h) return;
         else r.h-=r.y;
     }
 
     glColor4f(1,1,1,1);
 
-    GLuint sprite = image__->gl_tex;
+    GLuint sprite = image->gl_tex;
 
     glBindTexture(GL_TEXTURE_2D, sprite);
 
-    float W = image__->w;
-    float H = image__->h;
+    float W = image->w;
+    float H = image->h;
     float dX = r.w;
     float dY = r.h;
 

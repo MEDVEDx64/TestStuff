@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 
+#include "global.h"
 #include "object.h"
 
 #define MAX_IDIOTS          8
@@ -23,8 +24,8 @@ typedef struct
 {
     int id;
 
-    GLuint  BGlayer,
-            MDlayer,
+    t_Image BGlayer,
+            INTlayer,
             FGlayer;
 
     float       BGspeed;
@@ -44,14 +45,16 @@ typedef struct
     t_Object _1UPs[MAX_1UPS];
     t_Object Keys[MAX_KEYS];
 
-    unsigned int flags;
+    unsigned int    keysRequired;
+    unsigned int    bossHP,
+                    bossShotInterval,
+                    flags;
 }
 
 t_Level;
 
 int levelSwitch(int id);
 
-void levelLoop();
 void levelDrawForeground();
 void levelDrawAllTheRest();
 

@@ -3,8 +3,6 @@
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>
-#include "global.h"
-#include "draw.h"
 
 #define SCRW 768
 #define SCRH 480

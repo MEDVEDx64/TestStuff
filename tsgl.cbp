@@ -76,6 +76,10 @@
 		</Unit>
 		<Unit filename="menu.h" />
 		<Unit filename="object.h" />
+		<Unit filename="utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

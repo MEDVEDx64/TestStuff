@@ -33,7 +33,10 @@ char appState = APPSTATE_INTRO;
 int main(int argc, char *argv[])
 {
     if(init())
+    {
+        fprintf(stderr, "Initialization fault.\n");
         return 1;
+    }
 
     fprintf(stderr, "FPS is set to %d\n", FPS);
     unsigned long long cycles = 0;

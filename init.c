@@ -8,6 +8,7 @@
 
 #include "keypress.h"
 #include "global.h"
+#include "utils.h"
 
 const char *fnames[] = {
     FNAMES_DEFINITION
@@ -18,7 +19,7 @@ t_Image *images = NULL;
 int loadImages()
 {
     // Here we gonna load some images
-    fprintf(stderr, "Calling %s to load some general images...\n", __FUNCTION__);
+    fprintf(stderr, "Calling %s to load some general images:\n", __FUNCTION__);
 
     images = malloc(IMAGES*sizeof(t_Image));
     memset(images, 0, IMAGES*sizeof(t_Image));
@@ -34,48 +35,17 @@ int loadImages()
             printf("failed. Aborting.\n");
             return 1;
         }
-        fprintf(stderr, "ok\n");
 
-        // Converting SDL_Surface to GLuint
-        // Checking it's size first
-        GLint maxTexSize;
-        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTexSize);
-        if(tmpSurf->w > maxTexSize)
+        if(surf2Image(tmpSurf, &images[i]))
         {
-            fprintf(stderr, " > overflow? (It may mean that texture you`re trying"
-                            " to cook is too large.)\n");
+            fprintf(stderr, "failed.\nIt may mean that texture you`re trying"
+                        " to load is too large, or unsupported texture format.\n");
             SDL_FreeSurface(tmpSurf);
             return 1;
         }
 
-        // Creating texture
-        images[i].w = tmpSurf->w;
-        images[i].h = tmpSurf->h;
-        GLuint *gl_tex = malloc(sizeof(GLuint));
-        glGenTextures(1, gl_tex);
-        glBindTexture(GL_TEXTURE_2D, gl_tex[0]);
-        images[i].gl_tex = gl_tex[0];
-        free(gl_tex);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-        switch(tmpSurf->format->BitsPerPixel)
-        {
-            case 24: glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tmpSurf->w, tmpSurf->h, 0,
-                                  GL_RGB, GL_UNSIGNED_BYTE, tmpSurf->pixels); break;
-            case 32: glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tmpSurf->w, tmpSurf->h, 0,
-                                  GL_RGBA, GL_UNSIGNED_BYTE, tmpSurf->pixels); break;
-            default: fprintf(stderr, "Error: unsupported texture format (%s:%u).\n",
-                             fnames[i], tmpSurf->format->BitsPerPixel);
-                     SDL_FreeSurface(tmpSurf);
-                     return 1;
-        }
-
         SDL_FreeSurface(tmpSurf);
+        fprintf(stderr, "ok\n");
     }
 
     fprintf(stderr, "Loading done.\n");
