@@ -76,6 +76,14 @@
 		</Unit>
 		<Unit filename="menu.h" />
 		<Unit filename="object.h" />
+		<Unit filename="player.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="player.h" />
+		<Unit filename="reset.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="reset.h" />
 		<Unit filename="utils.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -1,4 +1,8 @@
 #include "utils.h"
+#include "level.h"
+#include "global.h"
+
+#include <SDL/SDL.h>
 
 int surf2Image(SDL_Surface *surf, t_Image *dest)
 {
@@ -34,4 +38,29 @@ int surf2Image(SDL_Surface *surf, t_Image *dest)
     }
 
     return 0;
+}
+
+Uint8 getPixel8(SDL_Surface *surface, int x, int y) /* lazyfoo */
+{
+    if(x<0 || y<0)
+        return 0;
+
+    SDL_LockSurface(surface);
+    Uint8 *pixels = (Uint8*)surface->pixels;
+    SDL_UnlockSurface(surface);
+
+    return pixels[(y*surface->w)+x];
+}
+
+int isCollision(int x, int y)
+{
+    /* Bound checking */
+    if(x < 0        ||
+       y < 0        ||
+       x >= GRID_W  ||
+       y >= GRID_H) return 1;
+
+    /* Color checking */
+    int result = (int)getPixel8(currentLevel.collision, x, y) & 1;
+    return result;
 }

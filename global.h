@@ -7,6 +7,11 @@
 #define SCRW 768
 #define SCRH 480
 
+#define GRID_W 24
+#define GRID_H 15
+
+#define STEP 32
+
 #define APPSTATE_INTRO      1
 #define APPSTATE_MENU       2
 #define APPSTATE_GAME       4

@@ -1,7 +1,12 @@
+#include <SDL/SDL_image.h>
 #include <stdio.h>
+#include <malloc.h>
 #include <string.h>
 
+#include "player.h"
 #include "level.h"
+#include "utils.h"
+#include "draw.h"
 
 t_Level currentLevel =
 {
@@ -14,6 +19,10 @@ t_Level currentLevel =
     NULL, NULL,     /* collision surfaces */
     0, 0, 0, 0      /* spawn/exit */
 };
+
+/* Background position */
+float bgX = 0;
+float bgY = 0;
 
 typedef
 enum
@@ -53,13 +62,42 @@ char *getFileName(int levelID, t_FileType fype)
 
 void levelReset()
 {
+    fprintf(stderr, " > Cleaning up level's structure\n");
     currentLevel.id = 0;
 
     /* Freein` surfaces */
-    if(currentLevel.collision != NULL)      SDL_FreeSurface(currentLevel.collision);
-    if(currentLevel.killmap != NULL)        SDL_FreeSurface(currentLevel.killmap);
+    if(currentLevel.collision != NULL)
+    {
+        SDL_FreeSurface(currentLevel.collision);
+        currentLevel.collision = NULL;
+    }
+
+    if(currentLevel.killmap != NULL)
+    {
+        SDL_FreeSurface(currentLevel.killmap);
+        currentLevel.killmap = NULL;
+    }
 
     /* And images */
+    glDeleteTextures(1, &currentLevel.BGlayer.gl_tex);
+    glDeleteTextures(1, &currentLevel.INTlayer.gl_tex);
+    glDeleteTextures(1, &currentLevel.FGlayer.gl_tex);
+
+    currentLevel.BGlayer    .gl_tex = 0;
+    currentLevel.INTlayer   .gl_tex = 0;
+    currentLevel.FGlayer    .gl_tex = 0;
+
+    /* Objs */
+    memset(&currentLevel._1UPs,         0, sizeof(t_Object)*MAX_1UPS);
+    memset(&currentLevel.DrunkenBots,   0, sizeof(t_Object)*MAX_DRUNKEN_BOTS);
+    memset(&currentLevel.Idiots,        0, sizeof(t_Object)*MAX_IDIOTS);
+    memset(&currentLevel.Keys,          0, sizeof(t_Object)*MAX_KEYS);
+    memset(&currentLevel.Portals,       0, sizeof(t_Object)*MAX_PORTALS);
+    memset(&currentLevel.Turrets,       0, sizeof(t_Object)*MAX_TURRETS);
+
+    /* BG coords */
+    bgX = 0;
+    bgY = 0;
 }
 
 int loadConf(int which)
@@ -69,6 +107,8 @@ int loadConf(int which)
 
     if(f_name == NULL)
         return 1;
+
+    fprintf(stderr, " > In progress: %s\n", f_name);
 
     if((f = fopen(f_name, "r")) == NULL)
     {
@@ -94,31 +134,313 @@ int loadConf(int which)
                       return 1;
                   }
 
+    /* Fixing BGdirection */
+    currentLevel.BGdirection == 3 ? currentLevel.BGdirection = DIR_DOWN : 0;
+    currentLevel.BGdirection == 4 ? currentLevel.BGdirection = DIR_LEFT : 0;
+
     currentLevel.flags |= dark__ ? IS_DARK_LEVEL : 0;
+
+    fclose(f);
     free(f_name);
+    return 0;
+}
+
+int loadItems(int which)
+{
+    FILE *f;
+    char *f_name = getFileName(which, FYPE_ITEMS);
+
+    if(f_name == NULL)
+        return 1;
+
+    fprintf(stderr, " > In progress: %s\n", f_name);
+
+    if((f = fopen(f_name, "r")) == NULL)
+    {
+        free(f_name);
+        return 1;
+    }
+
+    if(
+    fscanf(f,
+           "[Keys]\n Key1X = %i\n Key1Y = %i\n Key2X = %i\n Key2Y = %i\n Key3X = %i\n "
+           "Key3Y = %i\n\n[1UP]\n 1UP1X = %i\n 1UP1Y = %i\n 1UP2X = %i\n 1UP2Y = %i\n 1UP3X = %i\n 1UP3Y = %i",
+
+           (int*)&currentLevel.Keys[0].posX, (int*)&currentLevel.Keys[0].posY,
+           (int*)&currentLevel.Keys[1].posX, (int*)&currentLevel.Keys[1].posY,
+           (int*)&currentLevel.Keys[2].posX, (int*)&currentLevel.Keys[2].posY,
+
+           (int*)&currentLevel._1UPs[0].posX, (int*)&currentLevel._1UPs[0].posY,
+           (int*)&currentLevel._1UPs[1].posX, (int*)&currentLevel._1UPs[1].posY,
+           (int*)&currentLevel._1UPs[2].posX, (int*)&currentLevel._1UPs[2].posY) != 12)
+           {
+               free(f_name);
+               return 1;
+           }
+
+    /* 'Enabling' objects */
+    int i = 0;
+    while(i++ < MAX_1UPS)
+    {
+        currentLevel.Keys[i]    .isEnabled = (int)currentLevel.Keys[i].    posX == OBJ_DISABLED ? 0 : 1;
+        currentLevel._1UPs[i]   .isEnabled = (int)currentLevel._1UPs[i].   posX == OBJ_DISABLED ? 0 : 1;
+    }
+
+    free(f_name);
+    fclose(f);
+    return 0;
+}
+
+int loadTraps(int which)
+{
+    FILE *f;
+    char *f_name = getFileName(which, FYPE_TRAPS);
+
+    if(f_name == NULL)
+        return 1;
+
+    fprintf(stderr, " > In progress: %s\n", f_name);
+
+    if((f = fopen(f_name, "r")) == NULL)
+    {
+        free(f_name);
+        return 1;
+    }
+
+    // It`s horrible, yeah. But i should be sure to be fully compatible
+    // with old 1.x Test Stuff content.
+    if(fscanf(f,
+              "[Idiots]\n%i:%i:%i:%i:%i:%i:%i:%i\n%i:%i:%i:%i:%i:%i:%i:%i\n\n[Drunken"
+              "Bot]\n%i:%i\n\n[Portals]\n%i:%i:%i:%i:%i:%i\n%i:%i:%i:%i:%i:%i\n\n[Tur"
+              "rets]\n%i:%i:%i\n%i:%i:%i",
+
+              (int*)&currentLevel.Idiots[0].posX, (int*)&currentLevel.Idiots[1].posX,
+              (int*)&currentLevel.Idiots[2].posX, (int*)&currentLevel.Idiots[3].posX,
+              (int*)&currentLevel.Idiots[4].posX, (int*)&currentLevel.Idiots[5].posX,
+              (int*)&currentLevel.Idiots[6].posX, (int*)&currentLevel.Idiots[7].posX,
+
+              (int*)&currentLevel.Idiots[0].posY, (int*)&currentLevel.Idiots[1].posY,
+              (int*)&currentLevel.Idiots[2].posY, (int*)&currentLevel.Idiots[3].posY,
+              (int*)&currentLevel.Idiots[4].posY, (int*)&currentLevel.Idiots[5].posY,
+              (int*)&currentLevel.Idiots[6].posY, (int*)&currentLevel.Idiots[7].posY,
+
+              (int*)&currentLevel.DrunkenBots[0].posX,
+              (int*)&currentLevel.DrunkenBots[0].posY,
+
+              (int*)&currentLevel.Portals[0].posX,     (int*)&currentLevel.Portals[1].posX,   (int*)&currentLevel.Portals[2].posX,   (int*)&currentLevel.Portals[0].destX,
+              (int*)&currentLevel.Portals[1].destX,    (int*)&currentLevel.Portals[2].destX,  (int*)&currentLevel.Portals[0].posY,   (int*)&currentLevel.Portals[1].posY,
+              (int*)&currentLevel.Portals[2].posY,     (int*)&currentLevel.Portals[0].destY,  (int*)&currentLevel.Portals[1].destY,  (int*)&currentLevel.Portals[2].destY,
+
+              (int*)&currentLevel.Turrets[0].posX,
+              (int*)&currentLevel.Turrets[1].posX,
+              (int*)&currentLevel.Turrets[2].posX,
+
+              (int*)&currentLevel.Turrets[0].posY,
+              (int*)&currentLevel.Turrets[1].posY,
+              (int*)&currentLevel.Turrets[2].posY
+              ) != 36)
+              {
+                  free(f_name);
+                  return 1;
+              }
+
+    /* And enabling `em all (surely, if isn`t OBJ_DISABLED) */
+    int i = 0;
+    while(i++ < MAX_IDIOTS)
+    {
+        if((int)currentLevel.Idiots[i].posX != OBJ_DISABLED)
+            currentLevel.Idiots[i].isEnabled = 1;
+    }
+
+    while(i++ < MAX_PORTALS)
+    {
+        if((int)currentLevel.Portals[i].posX != OBJ_DISABLED)
+            currentLevel.Portals[i].isEnabled = 1;
+    }
+
+    while(i++ < MAX_TURRETS)
+    {
+        if((int)currentLevel.Turrets[i].posX != OBJ_DISABLED)
+            currentLevel.Turrets[i].isEnabled = 1;
+    }
+
+    if((int)currentLevel.DrunkenBots[0].posX != OBJ_DISABLED)
+        currentLevel.DrunkenBots[0].isEnabled = 1;
+
+    /* Finish it. */
+    free(f_name);
+    fclose(f);
+    return 0;
+}
+
+int loadBitmaps(int which)
+{
+#define MK_FREI                         \
+    do                                  \
+    {                                   \
+        free(fn_bg);                    \
+        free(fn_int);                   \
+        free(fn_fg);                    \
+                                                                \
+        ls_bg   == NULL ? 0 :     SDL_FreeSurface(ls_bg);       \
+        ls_int  == NULL ? 0 :     SDL_FreeSurface(ls_int);      \
+        ls_fg   == NULL ? 0 :     SDL_FreeSurface(ls_fg);       \
+    }                                                           \
+    while(0)
+
+    /* File names */
+    char *fn_bg     = getFileName(which, FYPE_LAYER_BG);
+    char *fn_int    = getFileName(which, FYPE_LAYER_INT);
+    char *fn_fg     = getFileName(which, FYPE_LAYER_FG);
+
+    /* Layer surfaces */
+    fprintf(stderr, " > In progress: %s\n", fn_bg);
+    SDL_Surface *ls_bg     = IMG_Load(fn_bg);
+
+    fprintf(stderr, " > In progress: %s\n", fn_int);
+    SDL_Surface *ls_int    = IMG_Load(fn_int);
+
+    fprintf(stderr, " > In progress: %s\n", fn_fg);
+    SDL_Surface *ls_fg     = IMG_Load(fn_fg);
+
+    if(ls_int == NULL)
+    {
+        MK_FREI;
+        return 1;
+    }
+
+    fprintf(stderr, " > Cooking bitmaps\n");
+
+    if(surf2Image(ls_int, &currentLevel.INTlayer))
+    {
+        MK_FREI;
+        return 1;
+    }
+
+    if(ls_bg != NULL)
+    {
+        if(surf2Image(ls_bg, &currentLevel.BGlayer))
+            fprintf(stderr, "%s warning: it`s possible that bitmap's format you`re trying"
+                            "to load is unsupported.\n", __FUNCTION__);
+    }
+
+    if(ls_fg != NULL)
+    {
+        if(surf2Image(ls_fg, &currentLevel.FGlayer))
+            fprintf(stderr, "%s warning: it`s possible that bitmap's format you`re trying"
+                            "to load is unsupported.\n", __FUNCTION__);
+    }
+
+    MK_FREI;
+    return 0;
+}
+
+int loadCollision(int which)
+{
+    char *fn_col        = getFileName(which, FYPE_COLLISION);
+    char *fn_killmap    = getFileName(which, FYPE_KILLMAP);
+
+    fprintf(stderr, " > In progress: %s\n", fn_col);
+    currentLevel.collision = IMG_Load(fn_col);
+    if(currentLevel.collision == NULL)
+    {
+        free(fn_col);
+        free(fn_killmap);
+        return 1;
+    }
+
+    fprintf(stderr, " > In progress: %s\n", fn_killmap);
+    currentLevel.killmap = IMG_Load(fn_killmap);
+
+    free(fn_col);
+    free(fn_killmap);
     return 0;
 }
 
 int levelSwitch(int id)
 {
 
+    fprintf(stderr, "Loading level %d:\n", id);
+
+    /* Checking for new id isn`t null */
+    if(!id)
+    {
+        fprintf(stderr, "%s: attempted to load 0th level.\n", __FUNCTION__);
+        return 1;
+    }
+
     /* Makin` sure that input ID`s not equal to current ID */
     if(id == currentLevel.id)
     {
-        fprintf(stderr, "%s warning: attempted to load the same level\n", __FUNCTION__);
-        return 0;
+        fprintf(stderr, "%s: attempted to load the same level\n", __FUNCTION__);
+        return 1;
     }
 
+    /* Cleanup first */
+    levelReset();
+
     /* Let`s load config files first */
-    if(loadConf(id))
+    if(loadConf(id) | loadItems(id) | loadTraps(id))
     {
-        fprintf(stderr, "%s: failed to load level's configuration file.\n"
-                        "Please make sure that all fields in the file are correct and there are no side entries.\n",
+        fprintf(stderr, "%s: failed to load level's configuration file(s).\n"
+                        "Please make sure that all fields in the files are correct and there are no side entries.\n",
                         __FUNCTION__);
         return 1;
     }
 
-    /** INCOMPLETE! **/
+    if(loadBitmaps(id) | loadCollision(id))
+    {
+        fprintf(stderr, "%s: some critical level's bitmaps has failed to load.\n", __FUNCTION__);
+        return 1;
+    }
 
+    fprintf(stderr, " > Resetting objects\n");
+    playerReset();
+
+    fprintf(stderr, "Done.\n");
     return 0;
+
+}
+
+void levelLoop()
+{
+    if(!currentLevel.BGlayer.gl_tex)
+        return;
+
+    /* Background movement */
+    switch(currentLevel.BGdirection)
+    {
+        case DIR_UP:
+            bgY -- ;
+            if(bgY < currentLevel.BGlayer.h - SCRH)
+                bgY = 0; break;
+
+        case DIR_RIGHT:
+            bgX ++ ;
+            if(bgX > 0)
+                bgX = -currentLevel.BGlayer.w + SCRW;
+                break;
+
+        case DIR_DOWN:
+            bgY ++ ;
+            if(bgY > 0)
+                bgX = -currentLevel.BGlayer.h + SCRH;
+                break;
+
+        case DIR_LEFT:
+            bgX -- ;
+            if(bgX < currentLevel.BGlayer.w - SCRW)
+                bgX = 0; break;
+    }
+}
+
+void levelDrawForeground()
+{
+    drawImage(&currentLevel.FGlayer, 0, 0, NULL);
+}
+
+void levelDrawAllTheRest()
+{
+    drawImage(&currentLevel.BGlayer, bgX, bgY, NULL);
+    drawImage(&currentLevel.INTlayer, 0, 0, NULL);
 }

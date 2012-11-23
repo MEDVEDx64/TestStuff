@@ -8,7 +8,7 @@
 #include "keypress.h"
 
 #ifndef FPS
-#   define FPS 60
+#   define FPS 120
 #endif
 
 static unsigned int fps;

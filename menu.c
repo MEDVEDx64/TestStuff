@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "draw.h"
+#include "level.h"
 #include "global.h"
 #include "keypress.h"
 
@@ -30,8 +31,18 @@ void menuLoop()
     else if(kpGetState(SDLK_RETURN) == KPSTATE_DOWN)
     {
         /* on pressing Return ... */
-        if(menu_pos == MENU_POS_START) appState = APPSTATE_GAME;
-        if(menu_pos == MENU_POS_QUIT)  isRunning = 0;
+        if(menu_pos == MENU_POS_START)
+        {
+            fprintf(stderr, "Attempting to switch appState into APPSTATE_GAME\n");
+            appState = APPSTATE_GAME;
+            if(levelSwitch(1))
+                appState = APPSTATE_MENU;
+        }
+        if(menu_pos == MENU_POS_QUIT)
+        {
+            fprintf(stderr, "Switching isRunning into 0\n");
+            isRunning = 0;
+        }
     }
 
     /* Moving the background */

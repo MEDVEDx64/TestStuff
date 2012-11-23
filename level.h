@@ -7,6 +7,7 @@
 #include "global.h"
 #include "object.h"
 
+/* Do not change. */
 #define MAX_IDIOTS          8
 #define MAX_DRUNKEN_BOTS    1
 #define MAX_PORTALS         3
@@ -14,6 +15,7 @@
 
 #define MAX_1UPS            3
 #define MAX_KEYS            3
+/* --- */
 
 /* Level flags */
 
@@ -55,9 +57,12 @@ t_Level;
 
 int levelSwitch(int id);
 
+void levelLoop();
+void levelReset();
+
 void levelDrawForeground();
 void levelDrawAllTheRest();
 
-t_Level *levelGet();
+extern t_Level currentLevel;
 
 #endif

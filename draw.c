@@ -2,9 +2,14 @@
 
 #include "draw.h"
 #include "menu.h"
+#include "level.h"
+#include "player.h"
 
 void drawImage(t_Image *image, int x, int y, SDL_Rect *draw_rect)
 {
+    if(!image->gl_tex)
+        return;
+
     SDL_Rect r;
     if (draw_rect) {
         r.x = draw_rect->x;
@@ -62,6 +67,14 @@ void draw()
         case APPSTATE_MENU:
             menuDraw();
             break;
+
+        case APPSTATE_GAME:
+
+            levelDrawAllTheRest();
+
+            playerDraw();
+
+            levelDrawForeground();
     }
 
     SDL_GL_SwapBuffers();
