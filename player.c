@@ -65,9 +65,6 @@ void playerLoop()
             case DIR_LEFT:  player.posX--; break;
         }
     }
-
-    printf("plrx %f plry %f\n plr_tick %d plr_iswark %d\n",
-           player.posX, player.posY, plr_tick, is_walk);
 }
 
 void playerWalk(t_Direction dir)
