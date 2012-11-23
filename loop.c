@@ -5,6 +5,7 @@
 #include "global.h"
 #include "player.h"
 #include "keypress.h"
+#include "gameover.h"
 
 #include <SDL/SDL.h>
 
@@ -36,8 +37,7 @@ void loop()
             if(kpGetState(SDLK_ESCAPE))
             {
                 fprintf(stderr, "Switching back to the main menu\n");
-                resetAll();
-                appState = APPSTATE_MENU;
+                GET_BACK_TO_MENU;
             }
 
             levelLoop();
@@ -50,6 +50,17 @@ void loop()
 
             playerLoop();
 
+            break;
+
+        case APPSTATE_GAMEOVER:
+
+            if(kpGetState(SDLK_ESCAPE) == KPSTATE_DOWN)
+            {
+                fprintf(stderr, "Leaving APPSTATE_GAMEOVER\n");
+                GET_BACK_TO_MENU;
+            }
+
+            gameoverLoop();
             break;
 
     }

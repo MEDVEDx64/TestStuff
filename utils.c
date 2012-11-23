@@ -54,13 +54,38 @@ Uint8 getPixel8(SDL_Surface *surface, int x, int y) /* lazyfoo */
 
 int isCollision(int x, int y)
 {
-    /* Bound checking */
-    if(x < 0        ||
-       y < 0        ||
-       x >= GRID_W  ||
-       y >= GRID_H) return 1;
+#define X x/STEP
+#define Y y/STEP
 
-    /* Color checking */
-    int result = (int)getPixel8(currentLevel.collision, x, y) & 1;
-    return result;
+    /* Bound checkout */
+    if(X < 0        ||
+       Y < 0        ||
+       X >= GRID_W  ||
+       Y >= GRID_H) return 1;
+
+    /* And the color */
+    return (int)getPixel8(currentLevel.collision, X, Y) & 1;
+
+#undef X
+#undef Y
+}
+
+int isPixOnRect(int x, int y, SDL_Rect r)
+{
+    if
+    (
+        x >= r.x && x < r.x+r.w &&
+        y >= r.y && y < r.y+r.h
+    )
+    return 1;
+    return 0;
+}
+
+int isRectsCrosses(SDL_Rect r1, SDL_Rect r2)
+{
+    // It`s enough to check just 4 pixels
+    return isPixOnRect(r1.x+r1.w/4,     r1.y+r1.h/4, r2)        |
+            isPixOnRect(r1.x+r1.w/4*3,  r1.y+r1.h/4, r2)        |
+            isPixOnRect(r1.x+r1.w/4,    r1.y+r1.h/4*3, r2)      |
+            isPixOnRect(r1.x+r1.w/4*3,  r1.y+r1.h/4*3, r2);
 }

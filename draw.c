@@ -4,6 +4,7 @@
 #include "menu.h"
 #include "level.h"
 #include "player.h"
+#include "gameover.h"
 
 void drawImage(t_Image *image, int x, int y, SDL_Rect *draw_rect)
 {
@@ -75,6 +76,12 @@ void draw()
             playerDraw();
 
             levelDrawForeground();
+            break;
+
+        case APPSTATE_GAMEOVER:
+
+            gameoverDraw();
+            break;
     }
 
     SDL_GL_SwapBuffers();
