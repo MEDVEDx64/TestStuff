@@ -51,7 +51,7 @@ void playerLoop()
 
     /* Spawn protection */
     if(godmode) godmode -- ;
-    if(godmode == 1 || isPlayerOnSpawnPoint()) godmode |= 1; // is it kosher?
+    if(isPlayerOnSpawnPoint()) godmode |= 1;
 
 
     /* Keep walking! */

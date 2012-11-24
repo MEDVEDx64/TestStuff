@@ -1,4 +1,5 @@
 #include "loop.h"
+#include "text.h"
 #include "menu.h"
 #include "reset.h"
 #include "items.h"
@@ -22,6 +23,7 @@ void loop()
 
             if(kpGetState(SDLK_RETURN) == KPSTATE_DOWN)
             {
+                SET_MENU_STRING;
                 fprintf(stderr, "Switching appState into APPSTATE_MENU\n");
                 appState = APPSTATE_MENU; break;
             }
@@ -34,13 +36,6 @@ void loop()
 
         case APPSTATE_GAME:
 
-            /* Switching back to the menu if ESC is pressed */
-            if(kpGetState(SDLK_ESCAPE))
-            {
-                fprintf(stderr, "Switching back to the main menu\n");
-                GET_BACK_TO_MENU;
-            }
-
             levelLoop();
 
             /* Player's keys handling */
@@ -52,9 +47,27 @@ void loop()
             playerLoop();
             itemsLoop();
 
+            /* Text string setup */
+            char buff[0x1000];
+            sprintf(buff,
+                    "backups: %d, keys: %d of %d, level: %d",
+                    PLAYER_HP, PLAYER_KEYS,
+                    currentLevel.keysRequired,
+                    currentLevel.id);
+            textSetString(buff);
+
+            /* Switching back to the menu if ESC is pressed */
+            if(kpGetState(SDLK_ESCAPE))
+            {
+                fprintf(stderr, "Switching back to the main menu\n");
+                GET_BACK_TO_MENU;
+            }
+
             break;
 
         case APPSTATE_GAMEOVER:
+
+            textSetString(NULL);
 
             if(kpGetState(SDLK_ESCAPE) == KPSTATE_DOWN)
             {

@@ -3,12 +3,7 @@
 
 void resetAll();
 
-#define GET_BACK_TO_MENU                    \
-    do                                      \
-    {                                       \
-        resetAll();                         \
-        appState = APPSTATE_MENU;           \
-    }                                       \
-    while(0)
+#define SET_MENU_STRING textSetString("test stuff " VERSION)
+#define GET_BACK_TO_MENU resetAll()
 
 #endif

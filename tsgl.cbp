@@ -92,6 +92,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="reset.h" />
+		<Unit filename="text.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="text.h" />
 		<Unit filename="utils.c">
 			<Option compilerVar="CC" />
 		</Unit>

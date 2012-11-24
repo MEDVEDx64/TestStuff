@@ -1,6 +1,7 @@
 #include <GL/gl.h>
 
 #include "draw.h"
+#include "text.h"
 #include "menu.h"
 #include "items.h"
 #include "level.h"
@@ -85,6 +86,9 @@ void draw()
             gameoverDraw();
             break;
     }
+
+    /* Text line */
+    textDraw();
 
     SDL_GL_SwapBuffers();
 

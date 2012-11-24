@@ -97,7 +97,7 @@ int initVideo()
 
 int init()
 {
-    fprintf(stderr, "Test Stuff 2.00_indev\n");
+    fprintf(stderr, "Test Stuff " VERSION "\n");
     if(initVideo()|loadImages())
         return 1;
 

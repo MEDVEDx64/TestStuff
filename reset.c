@@ -1,3 +1,4 @@
+#include "text.h"
 #include "level.h"
 #include "reset.h"
 #include "player.h"
@@ -8,4 +9,7 @@ void resetAll()
     playerReset();
     levelReset();
     gameoverReset();
+
+    SET_MENU_STRING;
+    appState = APPSTATE_MENU;
 }
