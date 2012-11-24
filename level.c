@@ -197,16 +197,18 @@ int loadItems(int which)
 
     /* 'Enabling' objects */
     int i = 0;
-    while(i++ < MAX_1UPS)
+    while(i < MAX_1UPS)
     {
-        currentLevel.Keys[i]    .isEnabled = (int)currentLevel.Keys[i].    posX == OBJ_DISABLED ? 0 : 1;
-        currentLevel._1UPs[i]   .isEnabled = (int)currentLevel._1UPs[i].   posX == OBJ_DISABLED ? 0 : 1;
+        currentLevel.Keys[i]    .isEnabled = currentLevel.Keys[i].    posX == OBJ_DISABLED ? 0 : 1;
+        currentLevel._1UPs[i]   .isEnabled = currentLevel._1UPs[i].   posX == OBJ_DISABLED ? 0 : 1;
 
         currentLevel.Keys[i].posX *= STEP;
         currentLevel.Keys[i].posY *= STEP;
 
         currentLevel._1UPs[i].posX *= STEP;
         currentLevel._1UPs[i].posY *= STEP;
+
+        i++;
     }
 
     free(f_name);
@@ -274,22 +276,25 @@ int loadTraps(int which)
 
     /* And enabling `em all (surely, if isn`t OBJ_DISABLED) */
     int i = 0;
-    while(i++ < MAX_IDIOTS)
+    while(i < MAX_IDIOTS)
     {
         if((int)currentLevel.Idiots[i].posX != OBJ_DISABLED)
             currentLevel.Idiots[i].isEnabled = 1;
+        i++;
     }
 
-    while(i++ < MAX_PORTALS)
+    while(i < MAX_PORTALS)
     {
         if((int)currentLevel.Portals[i].posX != OBJ_DISABLED)
             currentLevel.Portals[i].isEnabled = 1;
+        i++;
     }
 
-    while(i++ < MAX_TURRETS)
+    while(i < MAX_TURRETS)
     {
         if((int)currentLevel.Turrets[i].posX != OBJ_DISABLED)
             currentLevel.Turrets[i].isEnabled = 1;
+        i++;
     }
 
     if((int)currentLevel.DrunkenBots[0].posX != OBJ_DISABLED)
