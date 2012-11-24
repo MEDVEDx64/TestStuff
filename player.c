@@ -9,6 +9,7 @@
 #include <SDL/SDL.h>
 
 #define PLAYER_INITIAL_HP   5
+#define GODMODE_INITIAL     60
 
 t_Object player = {
                     0, 0, 0,
@@ -19,62 +20,18 @@ t_Object player = {
 int is_walk = 0;
 int godmode = 0;
 
+int isPlayerOnSpawnPoint()
+{
+    return   (player.posX == currentLevel.spawnX ? 1 : 0)
+            & (player.posY == currentLevel.spawnY ? 1 : 0);
+}
+
 void playerLoop()
 {
-    /* Items */
-    SDL_Rect plrRect;
-
-    plrRect.x = (int)player.posX;
-    plrRect.y = (int)player.posY;
-    plrRect.w = STEP;
-    plrRect.h = STEP;
-
-    SDL_Rect itmRect;
-
-    int i = 0;
-    while(i++ < MAX_KEYS)
-    {
-        if(currentLevel.Keys[i].isEnabled)
-        {
-            itmRect.x = (int)currentLevel.Keys[i].posX;
-            itmRect.y = (int)currentLevel.Keys[i].posY;
-            itmRect.w = STEP;
-            itmRect.h = STEP;
-
-            if(isRectsCrosses(plrRect, itmRect))
-            {
-                PLAYER_KEYS < MAX_KEYS ? PLAYER_KEYS ++ : 0;
-                currentLevel.Keys[i].isEnabled = 0;
-                fprintf(stderr, "Player picked up a key @%d:%d\n",
-                        (int)player.posX, (int)player.posY);
-            }
-        }
-    }
-
-    i = 0;
-    while(i++ < MAX_1UPS)
-    {
-        if(currentLevel._1UPs[i].isEnabled)
-        {
-            itmRect.x = (int)currentLevel._1UPs[i].posX;
-            itmRect.y = (int)currentLevel._1UPs[i].posY;
-            itmRect.w = STEP;
-            itmRect.h = STEP;
-
-            if(isRectsCrosses(plrRect, itmRect))
-            {
-                PLAYER_HP ++ ;
-                currentLevel._1UPs[i].isEnabled = 0;
-                fprintf(stderr, "Player picked up a 1-UP @%d:%d\n",
-                        (int)player.posX, (int)player.posY);
-            }
-        }
-    }
-
     /* Next level! */
     if(PLAYER_KEYS >= currentLevel.keysRequired &&
-       player.posX == currentLevel.exitX*STEP &&
-       player.posY == currentLevel.exitY*STEP)
+       player.posX == currentLevel.exitX &&
+       player.posY == currentLevel.exitY)
        {
            fprintf(stderr, "Player reaches the level's exit\n");
            if(levelSwitch(currentLevel.id + 1))
@@ -91,6 +48,11 @@ void playerLoop()
         fprintf(stderr, "Player were slayed, entering APPSTATE_GAMEOVER\n");
         GAMEOVER_ENTER;
     }
+
+    /* Spawn protection */
+    if(godmode) godmode -- ;
+    if(godmode == 1 || isPlayerOnSpawnPoint()) godmode |= 1; // is it kosher?
+
 
     /* Keep walking! */
     if(!is_walk) return;
@@ -142,12 +104,15 @@ void playerDraw()
 
 void playerSlay()
 {
+    if(godmode) return;
+
     player.posX = currentLevel.spawnX*STEP;
     player.posY = currentLevel.spawnY*STEP;
 
     godmode = 0;
     is_walk = 0;
 
+    godmode = GODMODE_INITIAL;
     PLAYER_HP -- ;
 }
 
@@ -156,9 +121,9 @@ void playerReset()
     PLAYER_HP = PLAYER_INITIAL_HP;
     PLAYER_KEYS = 0;
 
-    player.posX = currentLevel.spawnX*STEP;
-    player.posY = currentLevel.spawnY*STEP;
+    player.posX = currentLevel.spawnX;
+    player.posY = currentLevel.spawnY;
 
-    godmode = 0;
+    godmode = GODMODE_INITIAL;
     is_walk = 0;
 }

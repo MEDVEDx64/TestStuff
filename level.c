@@ -98,6 +98,8 @@ void levelReset()
     /* BG coords */
     bgX = 0;
     bgY = 0;
+
+    currentLevel.keysRequired = 0;
 }
 
 int loadConf(int which)
@@ -144,6 +146,11 @@ int loadConf(int which)
     currentLevel.BGdirection == 4 ? currentLevel.BGdirection = DIR_LEFT : 0;
 
     currentLevel.flags |= dark__ ? IS_DARK_LEVEL : 0;
+
+    currentLevel.spawnX *= STEP;
+    currentLevel.spawnY *= STEP;
+    currentLevel.exitX  *= STEP;
+    currentLevel.exitY  *= STEP;
 
     fclose(f);
     free(f_name);

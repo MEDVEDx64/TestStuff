@@ -1,6 +1,7 @@
 #include "loop.h"
 #include "menu.h"
 #include "reset.h"
+#include "items.h"
 #include "level.h"
 #include "global.h"
 #include "player.h"
@@ -49,6 +50,7 @@ void loop()
             if(kpGetState(SDLK_LEFT))       playerWalk(DIR_LEFT);
 
             playerLoop();
+            itemsLoop();
 
             break;
 
