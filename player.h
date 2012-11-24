@@ -15,6 +15,7 @@ void playerWalk(t_Direction dir);
 void playerShoot();
 
 void playerReset();
+void playerSlay();
 
 extern t_Object player;
 

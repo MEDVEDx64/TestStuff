@@ -2,6 +2,7 @@
 
 #include "draw.h"
 #include "menu.h"
+#include "items.h"
 #include "level.h"
 #include "player.h"
 #include "gameover.h"
@@ -73,6 +74,7 @@ void draw()
 
             levelDrawAllTheRest();
 
+            itemsDraw();
             playerDraw();
 
             levelDrawForeground();

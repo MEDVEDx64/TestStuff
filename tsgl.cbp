@@ -60,6 +60,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="init.h" />
+		<Unit filename="items.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="items.h" />
 		<Unit filename="keypress.c">
 			<Option compilerVar="CC" />
 		</Unit>

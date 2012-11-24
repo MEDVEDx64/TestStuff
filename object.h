@@ -12,7 +12,7 @@ typedef struct
 {
     char    isEnabled;
 
-    float   posX, posY,
+    int     posX, posY,
             destX, destY,
             reservedX, reservedY,
             speed;

@@ -106,12 +106,16 @@ int loadConf(int which)
     char *f_name = getFileName(which, FYPE_CONF);
 
     if(f_name == NULL)
+    {
+        fprintf(stderr, "%s: f_name == NULL? (attempt to load something unknown)\n", __FUNCTION__);
         return 1;
+    }
 
     fprintf(stderr, " > In progress: %s\n", f_name);
 
     if((f = fopen(f_name, "r")) == NULL)
     {
+        fprintf(stderr, "%s: fopen failure\n", __FUNCTION__);
         free(f_name);
         return 1;
     }
@@ -130,6 +134,7 @@ int loadConf(int which)
                   &currentLevel.BGspeed, (int*)&currentLevel.BGdirection, &dummy__,
                   &dummy__, &currentLevel.bossHP, &currentLevel.bossShotInterval) != 14)
                   {
+                      fprintf(stderr, "%s: fscanf: arguments mismatch\n", __FUNCTION__);
                       free(f_name);
                       return 1;
                   }
@@ -151,12 +156,16 @@ int loadItems(int which)
     char *f_name = getFileName(which, FYPE_ITEMS);
 
     if(f_name == NULL)
+    {
+        fprintf(stderr, "%s: f_name == NULL? (attempt to load something unknown)\n", __FUNCTION__);
         return 1;
+    }
 
     fprintf(stderr, " > In progress: %s\n", f_name);
 
     if((f = fopen(f_name, "r")) == NULL)
     {
+        fprintf(stderr, "%s: fopen failure\n", __FUNCTION__);
         free(f_name);
         return 1;
     }
@@ -166,14 +175,15 @@ int loadItems(int which)
            "[Keys]\n Key1X = %i\n Key1Y = %i\n Key2X = %i\n Key2Y = %i\n Key3X = %i\n "
            "Key3Y = %i\n\n[1UP]\n 1UP1X = %i\n 1UP1Y = %i\n 1UP2X = %i\n 1UP2Y = %i\n 1UP3X = %i\n 1UP3Y = %i",
 
-           (int*)&currentLevel.Keys[0].posX, (int*)&currentLevel.Keys[0].posY,
-           (int*)&currentLevel.Keys[1].posX, (int*)&currentLevel.Keys[1].posY,
-           (int*)&currentLevel.Keys[2].posX, (int*)&currentLevel.Keys[2].posY,
+           &currentLevel.Keys[0].posX, &currentLevel.Keys[0].posY,
+           &currentLevel.Keys[1].posX, &currentLevel.Keys[1].posY,
+           &currentLevel.Keys[2].posX, &currentLevel.Keys[2].posY,
 
-           (int*)&currentLevel._1UPs[0].posX, (int*)&currentLevel._1UPs[0].posY,
-           (int*)&currentLevel._1UPs[1].posX, (int*)&currentLevel._1UPs[1].posY,
-           (int*)&currentLevel._1UPs[2].posX, (int*)&currentLevel._1UPs[2].posY) != 12)
+           &currentLevel._1UPs[0].posX, &currentLevel._1UPs[0].posY,
+           &currentLevel._1UPs[1].posX, &currentLevel._1UPs[1].posY,
+           &currentLevel._1UPs[2].posX, &currentLevel._1UPs[2].posY) != 12)
            {
+               fprintf(stderr, "%s: fscanf: arguments mismatch\n", __FUNCTION__);
                free(f_name);
                return 1;
            }
@@ -184,6 +194,12 @@ int loadItems(int which)
     {
         currentLevel.Keys[i]    .isEnabled = (int)currentLevel.Keys[i].    posX == OBJ_DISABLED ? 0 : 1;
         currentLevel._1UPs[i]   .isEnabled = (int)currentLevel._1UPs[i].   posX == OBJ_DISABLED ? 0 : 1;
+
+        currentLevel.Keys[i].posX *= STEP;
+        currentLevel.Keys[i].posY *= STEP;
+
+        currentLevel._1UPs[i].posX *= STEP;
+        currentLevel._1UPs[i].posY *= STEP;
     }
 
     free(f_name);
@@ -197,12 +213,16 @@ int loadTraps(int which)
     char *f_name = getFileName(which, FYPE_TRAPS);
 
     if(f_name == NULL)
+    {
+        fprintf(stderr, "%s: f_name == NULL? (attempt to load something unknown)\n", __FUNCTION__);
         return 1;
+    }
 
     fprintf(stderr, " > In progress: %s\n", f_name);
 
     if((f = fopen(f_name, "r")) == NULL)
     {
+        fprintf(stderr, "%s: fopen failure\n", __FUNCTION__);
         free(f_name);
         return 1;
     }
@@ -214,32 +234,33 @@ int loadTraps(int which)
               "Bot]\n%i:%i\n\n[Portals]\n%i:%i:%i:%i:%i:%i\n%i:%i:%i:%i:%i:%i\n\n[Tur"
               "rets]\n%i:%i:%i\n%i:%i:%i",
 
-              (int*)&currentLevel.Idiots[0].posX, (int*)&currentLevel.Idiots[1].posX,
-              (int*)&currentLevel.Idiots[2].posX, (int*)&currentLevel.Idiots[3].posX,
-              (int*)&currentLevel.Idiots[4].posX, (int*)&currentLevel.Idiots[5].posX,
-              (int*)&currentLevel.Idiots[6].posX, (int*)&currentLevel.Idiots[7].posX,
+              &currentLevel.Idiots[0].posX, &currentLevel.Idiots[1].posX,
+              &currentLevel.Idiots[2].posX, &currentLevel.Idiots[3].posX,
+              &currentLevel.Idiots[4].posX, &currentLevel.Idiots[5].posX,
+              &currentLevel.Idiots[6].posX, &currentLevel.Idiots[7].posX,
 
-              (int*)&currentLevel.Idiots[0].posY, (int*)&currentLevel.Idiots[1].posY,
-              (int*)&currentLevel.Idiots[2].posY, (int*)&currentLevel.Idiots[3].posY,
-              (int*)&currentLevel.Idiots[4].posY, (int*)&currentLevel.Idiots[5].posY,
-              (int*)&currentLevel.Idiots[6].posY, (int*)&currentLevel.Idiots[7].posY,
+              &currentLevel.Idiots[0].posY, &currentLevel.Idiots[1].posY,
+              &currentLevel.Idiots[2].posY, &currentLevel.Idiots[3].posY,
+              &currentLevel.Idiots[4].posY, &currentLevel.Idiots[5].posY,
+              &currentLevel.Idiots[6].posY, &currentLevel.Idiots[7].posY,
 
-              (int*)&currentLevel.DrunkenBots[0].posX,
-              (int*)&currentLevel.DrunkenBots[0].posY,
+              &currentLevel.DrunkenBots[0].posX,
+              &currentLevel.DrunkenBots[0].posY,
 
-              (int*)&currentLevel.Portals[0].posX,     (int*)&currentLevel.Portals[1].posX,   (int*)&currentLevel.Portals[2].posX,   (int*)&currentLevel.Portals[0].destX,
-              (int*)&currentLevel.Portals[1].destX,    (int*)&currentLevel.Portals[2].destX,  (int*)&currentLevel.Portals[0].posY,   (int*)&currentLevel.Portals[1].posY,
-              (int*)&currentLevel.Portals[2].posY,     (int*)&currentLevel.Portals[0].destY,  (int*)&currentLevel.Portals[1].destY,  (int*)&currentLevel.Portals[2].destY,
+              &currentLevel.Portals[0].posX,     &currentLevel.Portals[1].posX,   &currentLevel.Portals[2].posX,   &currentLevel.Portals[0].destX,
+              &currentLevel.Portals[1].destX,    &currentLevel.Portals[2].destX,  &currentLevel.Portals[0].posY,   &currentLevel.Portals[1].posY,
+              &currentLevel.Portals[2].posY,     &currentLevel.Portals[0].destY,  &currentLevel.Portals[1].destY,  &currentLevel.Portals[2].destY,
 
-              (int*)&currentLevel.Turrets[0].posX,
-              (int*)&currentLevel.Turrets[1].posX,
-              (int*)&currentLevel.Turrets[2].posX,
+              &currentLevel.Turrets[0].posX,
+              &currentLevel.Turrets[1].posX,
+              &currentLevel.Turrets[2].posX,
 
-              (int*)&currentLevel.Turrets[0].posY,
-              (int*)&currentLevel.Turrets[1].posY,
-              (int*)&currentLevel.Turrets[2].posY
+              &currentLevel.Turrets[0].posY,
+              &currentLevel.Turrets[1].posY,
+              &currentLevel.Turrets[2].posY
               ) != 36)
               {
+                  fprintf(stderr, "%s: fscanf: arguments mismatch\n", __FUNCTION__);
                   free(f_name);
                   return 1;
               }
@@ -379,6 +400,8 @@ int levelSwitch(int id)
     /* Cleanup first */
     levelReset();
 
+    currentLevel.id = id;
+
     /* Let`s load config files first */
     if(loadConf(id) | loadItems(id) | loadTraps(id))
     {
@@ -407,29 +430,31 @@ void levelLoop()
     if(!currentLevel.BGlayer.gl_tex)
         return;
 
+    /** DEBUG THIS! **/
+
     /* Background movement */
     switch(currentLevel.BGdirection)
     {
         case DIR_UP:
-            bgY -- ;
+            bgY -= currentLevel.BGspeed ;
             if(bgY < currentLevel.BGlayer.h - SCRH)
                 bgY = 0; break;
 
         case DIR_RIGHT:
-            bgX ++ ;
+            bgX += currentLevel.BGspeed ;
             if(bgX > 0)
                 bgX = -currentLevel.BGlayer.w + SCRW;
                 break;
 
         case DIR_DOWN:
-            bgY ++ ;
+            bgY += currentLevel.BGspeed ;
             if(bgY > 0)
                 bgX = -currentLevel.BGlayer.h + SCRH;
                 break;
 
         case DIR_LEFT:
-            bgX -- ;
-            if(bgX < currentLevel.BGlayer.w - SCRW)
+            bgX -= currentLevel.BGspeed ;
+            if(bgX < -SCRW)
                 bgX = 0; break;
     }
 }
