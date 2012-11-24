@@ -280,6 +280,10 @@ int loadTraps(int which)
     {
         if((int)currentLevel.Idiots[i].posX != OBJ_DISABLED)
             currentLevel.Idiots[i].isEnabled = 1;
+
+        currentLevel.Idiots[i].posX *= STEP;
+        currentLevel.Idiots[i].posY *= STEP;
+
         i++;
     }
 
@@ -287,6 +291,10 @@ int loadTraps(int which)
     {
         if((int)currentLevel.Portals[i].posX != OBJ_DISABLED)
             currentLevel.Portals[i].isEnabled = 1;
+
+        currentLevel.Portals[i].posX *= STEP;
+        currentLevel.Portals[i].posY *= STEP;
+
         i++;
     }
 
@@ -294,11 +302,18 @@ int loadTraps(int which)
     {
         if((int)currentLevel.Turrets[i].posX != OBJ_DISABLED)
             currentLevel.Turrets[i].isEnabled = 1;
+
+        currentLevel.Turrets[i].posX *= STEP;
+        currentLevel.Turrets[i].posY *= STEP;
+
         i++;
     }
 
     if((int)currentLevel.DrunkenBots[0].posX != OBJ_DISABLED)
         currentLevel.DrunkenBots[0].isEnabled = 1;
+
+    currentLevel.DrunkenBots[0].posX *= STEP;
+    currentLevel.DrunkenBots[0].posY *= STEP;
 
     /* Finish it. */
     free(f_name);

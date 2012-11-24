@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "text.h"
 #include "menu.h"
+#include "idiot.h"
 #include "items.h"
 #include "level.h"
 #include "player.h"
@@ -77,6 +78,7 @@ void draw()
 
             itemsDraw();
             playerDraw();
+            idiotDraw();
 
             levelDrawForeground();
             break;

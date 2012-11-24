@@ -2,6 +2,7 @@
 #include "text.h"
 #include "menu.h"
 #include "reset.h"
+#include "idiot.h"
 #include "items.h"
 #include "level.h"
 #include "global.h"
@@ -46,6 +47,7 @@ void loop()
 
             playerLoop();
             itemsLoop();
+            idiotLoop();
 
             /* Text string setup */
             char buff[0x1000];

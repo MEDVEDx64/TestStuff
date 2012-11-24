@@ -55,6 +55,9 @@
 		</Unit>
 		<Unit filename="gameover.h" />
 		<Unit filename="global.h" />
+		<Unit filename="idiot.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="idiot.h" />
 		<Unit filename="init.c">
 			<Option compilerVar="CC" />

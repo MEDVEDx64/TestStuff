@@ -45,7 +45,7 @@ void playerLoop()
     /* Alive? */
     if(!PLAYER_IS_ALIVE)
     {
-        fprintf(stderr, "Player were slayed, entering APPSTATE_GAMEOVER\n");
+        fprintf(stderr, "There`s no backups left so entering APPSTATE_GAMEOVER\n");
         GAMEOVER_ENTER;
     }
 
@@ -53,6 +53,10 @@ void playerLoop()
     if(godmode) godmode -- ;
     if(isPlayerOnSpawnPoint()) godmode |= 1;
 
+    /* Kill collision */
+    if(currentLevel.killmap != NULL)
+        if(isCollision(player.posX, player.posY, currentLevel.killmap))
+            playerSlay();
 
     /* Keep walking! */
     if(!is_walk) return;
@@ -78,13 +82,13 @@ void playerWalk(t_Direction dir)
     switch(dir)
     {
         case DIR_UP:
-            if(isCollision(player.posX, player.posY-STEP)) return; break;
+            if(isCollision(player.posX, player.posY-STEP, currentLevel.collision)) return; break;
         case DIR_RIGHT:
-            if(isCollision(player.posX+STEP, player.posY)) return; break;
+            if(isCollision(player.posX+STEP, player.posY, currentLevel.collision)) return; break;
         case DIR_DOWN:
-            if(isCollision(player.posX, player.posY+STEP)) return; break;
+            if(isCollision(player.posX, player.posY+STEP, currentLevel.collision)) return; break;
         case DIR_LEFT:
-            if(isCollision(player.posX-STEP, player.posY)) return; break;
+            if(isCollision(player.posX-STEP, player.posY, currentLevel.collision)) return; break;
     }
 
     player.direction = dir;
@@ -106,8 +110,12 @@ void playerSlay()
 {
     if(godmode) return;
 
-    player.posX = currentLevel.spawnX*STEP;
-    player.posY = currentLevel.spawnY*STEP;
+    fprintf(stderr, "Player were slayed @%d:%d\n",
+            player.posX,
+            player.posY);
+
+    player.posX = currentLevel.spawnX;
+    player.posY = currentLevel.spawnY;
 
     godmode = 0;
     is_walk = 0;

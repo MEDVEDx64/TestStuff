@@ -52,7 +52,7 @@ Uint8 getPixel8(SDL_Surface *surface, int x, int y) /* lazyfoo */
     return pixels[(y*surface->w)+x];
 }
 
-int isCollision(int x, int y)
+int isCollision(int x, int y, SDL_Surface *map)
 {
 #define X x/STEP
 #define Y y/STEP
@@ -64,7 +64,7 @@ int isCollision(int x, int y)
        Y >= GRID_H) return 1;
 
     /* And the color */
-    return (int)getPixel8(currentLevel.collision, X, Y) & 1;
+    return (int)getPixel8(map, X, Y) & 1;
 
 #undef X
 #undef Y
