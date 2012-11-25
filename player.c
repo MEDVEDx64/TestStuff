@@ -55,7 +55,7 @@ void playerLoop()
 
     /* Kill collision */
     if(currentLevel.killmap != NULL)
-        if(isCollision(player.posX, player.posY, currentLevel.killmap))
+        if(isKillCollision(player.posX+STEP/2, player.posY+STEP/2))
             playerSlay();
 
     /* Keep walking! */
@@ -82,13 +82,13 @@ void playerWalk(t_Direction dir)
     switch(dir)
     {
         case DIR_UP:
-            if(isCollision(player.posX, player.posY-STEP, currentLevel.collision)) return; break;
+            if(isCollision(player.posX, player.posY-STEP) | isOutOfBounds(player.posX, player.posY-STEP)) return; break;
         case DIR_RIGHT:
-            if(isCollision(player.posX+STEP, player.posY, currentLevel.collision)) return; break;
+            if(isCollision(player.posX+STEP, player.posY) | isOutOfBounds(player.posX+STEP, player.posY)) return; break;
         case DIR_DOWN:
-            if(isCollision(player.posX, player.posY+STEP, currentLevel.collision)) return; break;
+            if(isCollision(player.posX, player.posY+STEP) | isOutOfBounds(player.posX, player.posY+STEP)) return; break;
         case DIR_LEFT:
-            if(isCollision(player.posX-STEP, player.posY, currentLevel.collision)) return; break;
+            if(isCollision(player.posX-STEP, player.posY) | isOutOfBounds(player.posX-STEP, player.posY)) return; break;
     }
 
     player.direction = dir;

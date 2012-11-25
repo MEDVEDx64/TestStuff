@@ -1,7 +1,7 @@
 #ifndef GLOBAL_H_INCLUDED
 #define GLOBAL_H_INCLUDED
 
-#define VERSION "2.0_1124_indev"
+#define VERSION "2.0_1125_indev"
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>
@@ -73,7 +73,6 @@ enum
     IMG_GAMEOVER
 };
 
-//#define IMAGES (sizeof(fnames)/sizeof(intptr_t))
 #define IMAGES 19
 
 #endif // GLOBAL_H_INCLUDED

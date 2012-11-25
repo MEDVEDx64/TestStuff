@@ -38,8 +38,8 @@ void idiotLoop()
             case DIR_DOWN:
 
                 if(isCollision(currentLevel.Idiots[i].posX,
-                               currentLevel.Idiots[i].posY+STEP,
-                               currentLevel.collision))
+                               currentLevel.Idiots[i].posY+STEP) | isOutOfBounds(currentLevel.Idiots[i].posX,
+                                                                                 currentLevel.Idiots[i].posY+1))
                    currentLevel.Idiots[i].direction = DIR_UP;
 
                 currentLevel.Idiots[i].posY ++ ;
@@ -48,8 +48,8 @@ void idiotLoop()
             case DIR_UP:
 
                 if(isCollision(currentLevel.Idiots[i].posX,
-                               currentLevel.Idiots[i].posY+1,
-                               currentLevel.collision))
+                               currentLevel.Idiots[i].posY) | isOutOfBounds(currentLevel.Idiots[i].posX,
+                                                                                 currentLevel.Idiots[i].posY-1))
                    currentLevel.Idiots[i].direction = DIR_DOWN;
 
                 currentLevel.Idiots[i].posY -- ;

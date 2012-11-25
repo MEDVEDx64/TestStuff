@@ -81,6 +81,11 @@ void draw()
             idiotDraw();
 
             levelDrawForeground();
+
+            /* Darkness layer here */
+            if(currentLevel.flags & IS_DARK_LEVEL)
+                drawImage(&images[IMG_DARKNESS], player.posX-(SCRW+STEP/2), player.posY-(SCRH-STEP/2), NULL);
+
             break;
 
         case APPSTATE_GAMEOVER:

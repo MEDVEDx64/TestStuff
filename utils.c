@@ -52,22 +52,24 @@ Uint8 getPixel8(SDL_Surface *surface, int x, int y) /* lazyfoo */
     return pixels[(y*surface->w)+x];
 }
 
-int isCollision(int x, int y, SDL_Surface *map)
+int isOutOfBounds(int x, int y)
 {
-#define X x/STEP
-#define Y y/STEP
+    if(x < 0        ||
+       y < 0        ||
+       x >= GRID_W*STEP  ||
+       y >= GRID_H*STEP) return 1;
 
-    /* Bound checkout */
-    if(X < 0        ||
-       Y < 0        ||
-       X >= GRID_W  ||
-       Y >= GRID_H) return 1;
+    return 0;
+}
 
-    /* And the color */
-    return (int)getPixel8(map, X, Y) & 1;
+int isCollision(int x, int y)
+{
+    return (int)getPixel8(currentLevel.collision, x/STEP, y/STEP) & 1;
+}
 
-#undef X
-#undef Y
+int isKillCollision(int x, int y)
+{
+    return (int)getPixel8(currentLevel.killmap, x, y) & 1;
 }
 
 int isPixOnRect(int x, int y, SDL_Rect r)

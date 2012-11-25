@@ -100,6 +100,7 @@ void levelReset()
     bgY = 0;
 
     currentLevel.keysRequired = 0;
+    currentLevel.flags = 0;
 }
 
 int loadConf(int which)
