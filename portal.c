@@ -65,7 +65,8 @@ void portalDraw()
 
 void portalReset()
 {
-    int i; while(i < MAX_PORTALS)
+    int i = 0;
+    while(i < MAX_PORTALS)
     {
         currentLevel.Portals[i].ACTIVATED = 0;
         i++;
