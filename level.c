@@ -3,6 +3,7 @@
 #include <malloc.h>
 #include <string.h>
 
+#include "portal.h"
 #include "player.h"
 #include "level.h"
 #include "utils.h"
@@ -101,6 +102,8 @@ void levelReset()
 
     currentLevel.keysRequired = 0;
     currentLevel.flags = 0;
+
+    portalReset();
 }
 
 int loadConf(int which)
@@ -288,16 +291,23 @@ int loadTraps(int which)
         i++;
     }
 
+    i = 0;
+
     while(i < MAX_PORTALS)
     {
-        if((int)currentLevel.Portals[i].posX != OBJ_DISABLED)
+        if(currentLevel.Portals[i].posX != OBJ_DISABLED)
             currentLevel.Portals[i].isEnabled = 1;
 
         currentLevel.Portals[i].posX *= STEP;
         currentLevel.Portals[i].posY *= STEP;
 
+        currentLevel.Portals[i].destX *= STEP;
+        currentLevel.Portals[i].destY *= STEP;
+
         i++;
     }
+
+    i = 0;
 
     while(i < MAX_TURRETS)
     {

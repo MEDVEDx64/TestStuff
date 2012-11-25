@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DDEBUG" />
 				</Compiler>
 				<Linker>
 					<Add option="-lSDL" />
@@ -91,6 +92,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="player.h" />
+		<Unit filename="portal.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="portal.h" />
 		<Unit filename="reset.c">
 			<Option compilerVar="CC" />
 		</Unit>

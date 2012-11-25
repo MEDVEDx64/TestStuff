@@ -7,6 +7,7 @@
 #include "items.h"
 #include "level.h"
 #include "player.h"
+#include "portal.h"
 #include "gameover.h"
 
 void drawImage(t_Image *image, int x, int y, SDL_Rect *draw_rect)
@@ -77,6 +78,7 @@ void draw()
             levelDrawAllTheRest();
 
             itemsDraw();
+            portalDraw();
             playerDraw();
             idiotDraw();
 
@@ -84,7 +86,7 @@ void draw()
 
             /* Darkness layer here */
             if(currentLevel.flags & IS_DARK_LEVEL)
-                drawImage(&images[IMG_DARKNESS], player.posX-(SCRW+STEP/2), player.posY-(SCRH-STEP/2), NULL);
+                drawImage(&images[IMG_DARKNESS], player.posX-(SCRW+STEP/2), player.posY-(SCRH+STEP/2), NULL);
 
             break;
 

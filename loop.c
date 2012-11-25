@@ -7,6 +7,7 @@
 #include "level.h"
 #include "global.h"
 #include "player.h"
+#include "portal.h"
 #include "keypress.h"
 #include "gameover.h"
 
@@ -39,16 +40,6 @@ void loop()
 
             levelLoop();
 
-            /* Player's keys handling */
-            if(kpGetState(SDLK_UP))         playerWalk(DIR_UP);
-            if(kpGetState(SDLK_RIGHT))      playerWalk(DIR_RIGHT);
-            if(kpGetState(SDLK_DOWN))       playerWalk(DIR_DOWN);
-            if(kpGetState(SDLK_LEFT))       playerWalk(DIR_LEFT);
-
-            playerLoop();
-            itemsLoop();
-            idiotLoop();
-
             /* Text string setup */
             char buff[0x1000];
             sprintf(buff,
@@ -58,8 +49,38 @@ void loop()
                     currentLevel.id);
             textSetString(buff);
 
+#ifdef DEBUG
+            /* Level switching cheat */
+            int sw_has_err = 0;
+            if(kpGetState(SDLK_s) && kpGetState(SDLK_RIGHT) == KPSTATE_DOWN)
+                sw_has_err = levelSwitch(currentLevel.id + 1);
+            if(kpGetState(SDLK_s) && kpGetState(SDLK_LEFT) == KPSTATE_DOWN)
+                sw_has_err = levelSwitch(currentLevel.id - 1);
+
+            if(sw_has_err)
+            {
+                fprintf(stderr, "Level switch failed.\n");
+                GET_BACK_TO_MENU;
+            }
+
+            /* It also freezes the game */
+            if(kpGetState(SDLK_s)) break;
+#endif
+
+            /* Player's keys handling */
+            if(kpGetState(SDLK_UP))         playerWalk(DIR_UP);
+            if(kpGetState(SDLK_RIGHT))      playerWalk(DIR_RIGHT);
+            if(kpGetState(SDLK_DOWN))       playerWalk(DIR_DOWN);
+            if(kpGetState(SDLK_LEFT))       playerWalk(DIR_LEFT);
+
+            /* Various in-game loops */
+            playerLoop();
+            itemsLoop();
+            idiotLoop();
+            portalLoop();
+
             /* Switching back to the menu if ESC is pressed */
-            if(kpGetState(SDLK_ESCAPE))
+            if(kpGetState(SDLK_ESCAPE) == KPSTATE_DOWN)
             {
                 fprintf(stderr, "Switching back to the main menu\n");
                 GET_BACK_TO_MENU;

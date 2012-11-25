@@ -15,12 +15,11 @@
 
 #define MAX_1UPS            3
 #define MAX_KEYS            3
-/* --- */
 
 /* Level flags */
-
 #define IS_BOSS_LEVEL       1
 #define IS_DARK_LEVEL       2
+/* --- */
 
 typedef struct
 {
@@ -55,6 +54,8 @@ typedef struct
 
 t_Level;
 
+/** Returns 0 on success, 1 on failure.
+    Keep checking what it returns! **/
 int levelSwitch(int id);
 
 void levelLoop();

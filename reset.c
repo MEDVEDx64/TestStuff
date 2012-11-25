@@ -6,6 +6,8 @@
 
 void resetAll()
 {
+    fprintf(stderr, "Calling %s\n", __FUNCTION__);
+
     playerReset();
     levelReset();
     gameoverReset();

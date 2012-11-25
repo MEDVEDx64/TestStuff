@@ -3,6 +3,7 @@
 #include "reset.h"
 #include "utils.h"
 #include "player.h"
+#include "portal.h"
 #include "global.h"
 #include "gameover.h"
 
@@ -119,6 +120,8 @@ void playerSlay()
 
     godmode = 0;
     is_walk = 0;
+
+    portalReset();
 
     godmode = GODMODE_INITIAL;
     PLAYER_HP -- ;
