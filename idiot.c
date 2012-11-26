@@ -41,7 +41,7 @@ void idiotLoop()
 
                 if(isCollision(currentLevel.Idiots[i].posX,
                                currentLevel.Idiots[i].posY+STEP) | isOutOfBounds(currentLevel.Idiots[i].posX,
-                                                                                 currentLevel.Idiots[i].posY+1))
+                                                                                 currentLevel.Idiots[i].posY+STEP))
                    currentLevel.Idiots[i].direction = DIR_UP;
 
                 currentLevel.Idiots[i].posY ++ ;
@@ -51,7 +51,7 @@ void idiotLoop()
 
                 if(isCollision(currentLevel.Idiots[i].posX,
                                currentLevel.Idiots[i].posY) | isOutOfBounds(currentLevel.Idiots[i].posX,
-                                                                                 currentLevel.Idiots[i].posY-1))
+                                                                                 currentLevel.Idiots[i].posY))
                    currentLevel.Idiots[i].direction = DIR_DOWN;
 
                 currentLevel.Idiots[i].posY -- ;

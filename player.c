@@ -9,6 +9,17 @@
 
 #include <SDL/SDL.h>
 
+#define PLAYER_RANDOM_SPAWN                             \
+    do                                                  \
+    {                                                   \
+        if(currentLevel.flags & IS_BOSS_LEVEL)          \
+        {                                               \
+            player.posX = ((rand()%GRID_W-2)+1)*STEP;   \
+            player.posY = (GRID_H-2)*STEP;              \
+        }                                               \
+    }                                                   \
+    while(0)
+
 #define GODMODE_INITIAL     60
 
 t_Object player = {
@@ -28,6 +39,14 @@ int isPlayerOnSpawnPoint()
 
 void playerLoop()
 {
+    /* Player dies when it`s outta level's bounds */
+    if(isOutOfBounds(player.posX, player.posY)
+       | isOutOfBounds(player.posX+STEP-1, player.posY+STEP-1))
+       {
+           fprintf(stderr, "Player fell out the level\n");
+           playerSlay();
+       }
+
     /* Next level! */
     if(PLAYER_KEYS >= currentLevel.keysRequired &&
        player.posX == currentLevel.exitX &&
@@ -127,6 +146,9 @@ void playerSlay()
 
     godmode = GODMODE_INITIAL;
     PLAYER_HP -- ;
+
+    /* Randomizing player's position if it`s a boss-level */
+    PLAYER_RANDOM_SPAWN;
 }
 
 void playerReset()
@@ -139,10 +161,5 @@ void playerReset()
     godmode = GODMODE_INITIAL;
     is_walk = 0;
 
-    /* Randomizing player's position if it`s a boss-level */
-    if(currentLevel.flags & IS_BOSS_LEVEL)
-    {
-        player.posX = ((rand()%GRID_W-2)+1)*STEP;
-        player.posY = (GRID_H-2)*STEP;
-    }
+    PLAYER_RANDOM_SPAWN;
 }
