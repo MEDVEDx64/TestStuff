@@ -51,6 +51,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="draw.h" />
+		<Unit filename="drunkenbot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="drunkenbot.h" />
 		<Unit filename="gameover.c">
 			<Option compilerVar="CC" />
 		</Unit>

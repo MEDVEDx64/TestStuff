@@ -42,7 +42,7 @@ int surf2Image(SDL_Surface *surf, t_Image *dest)
 
 Uint8 getPixel8(SDL_Surface *surface, int x, int y) /* lazyfoo */
 {
-    if(x<0 || y<0)
+    if(x<0 || y<0 || surface == NULL)
         return 0;
 
     SDL_LockSurface(surface);

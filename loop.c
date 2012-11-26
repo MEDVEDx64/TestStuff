@@ -10,6 +10,7 @@
 #include "portal.h"
 #include "keypress.h"
 #include "gameover.h"
+#include "drunkenbot.h"
 
 #include <SDL/SDL.h>
 
@@ -77,6 +78,7 @@ void loop()
             playerLoop();
             itemsLoop();
             idiotLoop();
+            drunkenbotLoop();
             portalLoop();
 
             /* Switching back to the menu if ESC is pressed */

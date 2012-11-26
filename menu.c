@@ -1,7 +1,9 @@
 #include "menu.h"
 #include "draw.h"
 #include "level.h"
+#include "reset.h"
 #include "global.h"
+#include "player.h"
 #include "keypress.h"
 
 #define MENU_UP                 0
@@ -36,7 +38,9 @@ void menuLoop()
             fprintf(stderr, "Attempting to switch appState into APPSTATE_GAME\n");
             appState = APPSTATE_GAME;
             if(levelSwitch(1))
-                appState = APPSTATE_MENU;
+                GET_BACK_TO_MENU;
+
+            PLAYER_HP = PLAYER_INITIAL_HP;
         }
         if(menu_pos == MENU_POS_QUIT)
         {

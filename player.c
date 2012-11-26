@@ -9,7 +9,6 @@
 
 #include <SDL/SDL.h>
 
-#define PLAYER_INITIAL_HP   5
 #define GODMODE_INITIAL     60
 
 t_Object player = {
@@ -132,7 +131,6 @@ void playerSlay()
 
 void playerReset()
 {
-    PLAYER_HP = PLAYER_INITIAL_HP;
     PLAYER_KEYS = 0;
 
     player.posX = currentLevel.spawnX;

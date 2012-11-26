@@ -5,6 +5,7 @@
 #include "object.h"
 
 #define PLAYER_HP           player.reservedX
+#define PLAYER_INITIAL_HP   5
 #define PLAYER_IS_ALIVE     PLAYER_HP
 #define PLAYER_KEYS         player.reservedY
 

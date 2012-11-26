@@ -9,6 +9,7 @@
 #include "player.h"
 #include "portal.h"
 #include "gameover.h"
+#include "drunkenbot.h"
 
 void drawImage(t_Image *image, int x, int y, SDL_Rect *draw_rect)
 {
@@ -81,6 +82,7 @@ void draw()
             portalDraw();
             playerDraw();
             idiotDraw();
+            drunkenbotDraw();
 
             levelDrawForeground();
 
