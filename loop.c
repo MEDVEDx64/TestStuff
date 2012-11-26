@@ -5,6 +5,7 @@
 #include "idiot.h"
 #include "items.h"
 #include "level.h"
+#include "bullet.h"
 #include "global.h"
 #include "player.h"
 #include "portal.h"
@@ -80,6 +81,7 @@ void loop()
             idiotLoop();
             drunkenbotLoop();
             portalLoop();
+            bulletLoop();
 
             /* Switching back to the menu if ESC is pressed */
             if(kpGetState(SDLK_ESCAPE) == KPSTATE_DOWN)

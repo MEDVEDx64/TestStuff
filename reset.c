@@ -1,6 +1,7 @@
 #include "text.h"
 #include "level.h"
 #include "reset.h"
+#include "bullet.h"
 #include "player.h"
 #include "gameover.h"
 
@@ -10,6 +11,7 @@ void resetAll()
 
     playerReset();
     levelReset();
+    bulletReset();
     gameoverReset();
 
     SET_MENU_STRING;

@@ -5,6 +5,7 @@
 
 #include "portal.h"
 #include "player.h"
+#include "bullet.h"
 #include "level.h"
 #include "utils.h"
 #include "draw.h"
@@ -104,6 +105,7 @@ void levelReset()
     currentLevel.flags = 0;
 
     portalReset();
+    bulletReset();
 }
 
 int loadConf(int which)

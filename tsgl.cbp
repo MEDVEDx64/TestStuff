@@ -42,6 +42,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="bullet.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="bullet.h" />
 		<Unit filename="cleanup.c">
 			<Option compilerVar="CC" />
 		</Unit>
