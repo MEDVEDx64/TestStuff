@@ -1,7 +1,7 @@
 #ifndef GLOBAL_H_INCLUDED
 #define GLOBAL_H_INCLUDED
 
-#define VERSION "2.0_1125_indev"
+#define VERSION "2.0_1126_indev"
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>

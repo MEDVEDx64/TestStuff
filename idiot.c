@@ -33,6 +33,8 @@ void idiotLoop()
     /* Processing all the Idiots */
     while(i < MAX_IDIOTS)
     {
+        if(!currentLevel.Idiots[i].isEnabled) return;
+
         switch(currentLevel.Idiots[i].direction)
         {
             case DIR_DOWN:
@@ -87,6 +89,8 @@ void idiotDraw()
     int i = 0;
     while(i < MAX_IDIOTS)
     {
+        if(!currentLevel.Idiots[i].isEnabled) return;
+
         /* Rect to be cuted from sprite */
         SDL_Rect draw_r;
 

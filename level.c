@@ -127,6 +127,7 @@ int loadConf(int which)
     }
 
     /* temporaries */
+    int type__     = 0;
     int dark__     = 0;
     int dummy__    = 0;
 
@@ -135,7 +136,7 @@ int loadConf(int which)
                   "= %f\n BGDirection = %i\n \n [Foreground]\nEnabled = %i\n\n[Banner]\n "
                   "Enabled = %i\n\n[Boss]\n Health = %i\nShotInterval = %i",
 
-                  &dummy__, &currentLevel.spawnX, &currentLevel.spawnY, &currentLevel.exitX,
+                  &type__, &currentLevel.spawnX, &currentLevel.spawnY, &currentLevel.exitX,
                   &currentLevel.exitY, &currentLevel.keysRequired, &dark__, &dummy__,
                   &currentLevel.BGspeed, (int*)&currentLevel.BGdirection, &dummy__,
                   &dummy__, &currentLevel.bossHP, &currentLevel.bossShotInterval) != 14)
@@ -146,10 +147,14 @@ int loadConf(int which)
                   }
 
     /* Fixing BGdirection */
-    currentLevel.BGdirection == 3 ? currentLevel.BGdirection = DIR_DOWN : 0;
-    currentLevel.BGdirection == 4 ? currentLevel.BGdirection = DIR_LEFT : 0;
+         if(currentLevel.BGdirection == 3) currentLevel.BGdirection = DIR_DOWN;
+    else if(currentLevel.BGdirection == 4) currentLevel.BGdirection = DIR_LEFT;
 
-    currentLevel.flags |= dark__ ? IS_DARK_LEVEL : 0;
+    /* Darkness` on? */
+    dark__ ? currentLevel.flags |= IS_DARK_LEVEL : 0;
+
+    /* Is it a boss level? */
+    type__ == 2? currentLevel.flags |= IS_BOSS_LEVEL : 0;
 
     currentLevel.spawnX *= STEP;
     currentLevel.spawnY *= STEP;
@@ -403,13 +408,18 @@ int loadCollision(int which)
     currentLevel.collision = IMG_Load(fn_col);
     if(currentLevel.collision == NULL)
     {
+        fprintf(stderr, "%s: failed\n", __FUNCTION__);
         free(fn_col);
         free(fn_killmap);
         return 1;
     }
 
-    fprintf(stderr, " > In progress: %s\n", fn_killmap);
+    fprintf(stderr, " > In progress: %s ... ", fn_killmap);
     currentLevel.killmap = IMG_Load(fn_killmap);
+
+    currentLevel.killmap == NULL ?
+        fprintf(stderr, "no\n"):
+        fprintf(stderr, "yes\n");
 
     free(fn_col);
     free(fn_killmap);
@@ -468,32 +478,32 @@ void levelLoop()
     if(!currentLevel.BGlayer.gl_tex)
         return;
 
-    /** DEBUG THIS! **/
-
     /* Background movement */
     switch(currentLevel.BGdirection)
     {
         case DIR_UP:
-            bgY -= currentLevel.BGspeed ;
-            if(bgY < currentLevel.BGlayer.h - SCRH)
-                bgY = 0; break;
+            bgY -= currentLevel.BGspeed;
+            if(bgY <= -(signed)currentLevel.BGlayer.h/2)
+                bgY = 0;
+            break;
 
         case DIR_RIGHT:
-            bgX += currentLevel.BGspeed ;
+            bgX += currentLevel.BGspeed;
             if(bgX > 0)
-                bgX = -currentLevel.BGlayer.w + SCRW;
-                break;
+                bgX = -SCRW;
+            break;
 
         case DIR_DOWN:
-            bgY += currentLevel.BGspeed ;
-            if(bgY > 0)
-                bgX = -currentLevel.BGlayer.h + SCRH;
-                break;
+            bgY += currentLevel.BGspeed;
+            if(bgY >= 0)
+                bgY = -(signed)currentLevel.BGlayer.h/2;
+            break;
 
         case DIR_LEFT:
-            bgX -= currentLevel.BGspeed ;
-            if(bgX < -SCRW)
-                bgX = 0; break;
+            bgX -= currentLevel.BGspeed;
+            if(bgX <= -(signed)currentLevel.BGlayer.w/2)
+                bgX = 0;
+            break;
     }
 }
 

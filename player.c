@@ -57,7 +57,10 @@ void playerLoop()
     /* Kill collision */
     if(currentLevel.killmap != NULL)
         if(isKillCollision(player.posX+STEP/2, player.posY+STEP/2))
+        {
+            fprintf(stderr, "Player contacted with kill collision\n");
             playerSlay();
+        }
 
     /* Keep walking! */
     if(!is_walk) return;
@@ -137,4 +140,11 @@ void playerReset()
 
     godmode = GODMODE_INITIAL;
     is_walk = 0;
+
+    /* Randomizing player's position if it`s a boss-level */
+    if(currentLevel.flags & IS_BOSS_LEVEL)
+    {
+        player.posX = ((rand()%GRID_W-2)+1)*STEP;
+        player.posY = (GRID_H-2)*STEP;
+    }
 }

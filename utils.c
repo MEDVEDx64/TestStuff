@@ -54,9 +54,10 @@ Uint8 getPixel8(SDL_Surface *surface, int x, int y) /* lazyfoo */
 
 int isOutOfBounds(int x, int y)
 {
-    if(x < 0        ||
-       y < 0        ||
-       x >= GRID_W*STEP  ||
+    /* We`re setting up special bounds on boss-levels */
+    if(x <  (currentLevel.flags&IS_BOSS_LEVEL ? STEP : 0)                           ||
+       y <  (currentLevel.flags&IS_BOSS_LEVEL ? STEP*7 : 0)                         ||
+       x >= (currentLevel.flags&IS_BOSS_LEVEL ? GRID_W*STEP-STEP : GRID_W*STEP)     ||
        y >= GRID_H*STEP) return 1;
 
     return 0;
