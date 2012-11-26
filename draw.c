@@ -8,6 +8,7 @@
 #include "level.h"
 #include "bullet.h"
 #include "player.h"
+#include "turret.h"
 #include "portal.h"
 #include "gameover.h"
 #include "drunkenbot.h"
@@ -85,6 +86,7 @@ void draw()
             idiotDraw();
             drunkenbotDraw();
             bulletDraw();
+            turretDraw();
 
             levelDrawForeground();
 

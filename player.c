@@ -130,7 +130,11 @@ void playerDraw()
 
 void playerSlay()
 {
-    if(godmode) return;
+    if(godmode)
+    {
+        fprintf(stderr, "%s: rejected due to godmode or spawn protection\n", __FUNCTION__);
+        return;
+    }
 
     fprintf(stderr, "Player were slayed @%d:%d\n",
             player.posX,

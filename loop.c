@@ -8,6 +8,7 @@
 #include "bullet.h"
 #include "global.h"
 #include "player.h"
+#include "turret.h"
 #include "portal.h"
 #include "keypress.h"
 #include "gameover.h"
@@ -81,6 +82,7 @@ void loop()
             idiotLoop();
             drunkenbotLoop();
             portalLoop();
+            turretLoop();
             bulletLoop();
 
             /* Switching back to the menu if ESC is pressed */

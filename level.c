@@ -371,6 +371,7 @@ int loadBitmaps(int which)
 
     if(ls_int == NULL)
     {
+        fprintf(stderr, "%s: unable to load intermediate level bitmap.\n", __FUNCTION__);
         MK_FREI;
         return 1;
     }
@@ -379,6 +380,7 @@ int loadBitmaps(int which)
 
     if(surf2Image(ls_int, &currentLevel.INTlayer))
     {
+        fprintf(stderr, "%s: intermediate level bitmap is too large or unsupported.\n", __FUNCTION__);
         MK_FREI;
         return 1;
     }
@@ -386,14 +388,14 @@ int loadBitmaps(int which)
     if(ls_bg != NULL)
     {
         if(surf2Image(ls_bg, &currentLevel.BGlayer))
-            fprintf(stderr, "%s warning: it`s possible that bitmap's format you`re trying"
+            fprintf(stderr, "%s (background bitmap stage) warning: it`s possible that bitmap's format you`re trying"
                             "to load is unsupported.\n", __FUNCTION__);
     }
 
     if(ls_fg != NULL)
     {
         if(surf2Image(ls_fg, &currentLevel.FGlayer))
-            fprintf(stderr, "%s warning: it`s possible that bitmap's format you`re trying"
+            fprintf(stderr, "%s (foreground bitmap stage) warning: it`s possible that bitmap's format you`re trying"
                             "to load is unsupported.\n", __FUNCTION__);
     }
 
@@ -415,6 +417,10 @@ int loadCollision(int which)
         free(fn_killmap);
         return 1;
     }
+
+    /* Checking it's format */
+    if(currentLevel.collision->format->BitsPerPixel != 8)
+        fprintf(stderr, "%s warning: bad collision pixel format\n", __FUNCTION__);
 
     fprintf(stderr, " > In progress: %s ... ", fn_killmap);
     currentLevel.killmap = IMG_Load(fn_killmap);

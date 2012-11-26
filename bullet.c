@@ -37,7 +37,7 @@ void bulletPush(int from_x, int from_y, t_Direction dir, int player_origin)
     }
 
     if(!found)
-        fprintf(stderr, "%s: bullets buffer overflow, shoot rejected\n", __FUNCTION__);
+        fprintf(stderr, "%s: buffer overflow, shoot rejected\n", __FUNCTION__);
 }
 
 void bulletLoop()
