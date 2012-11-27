@@ -35,6 +35,17 @@ Compiling
 Type *'make'* to build *Test Stuff*. In case of linkage fault you can compile it by typing the following:
 `cc *.c -o TestStuff -lSDL -lSDLmain -lSDL_image -lGL -lGLU -ldl -lm -pthread -s -O2`.
 
+You need these libraries' development files to successfully compile *Test Stuff*:
+ - libSDL;
+ - libGL (OpenGL library);
+ - libGLU.
+
+History
+=======
+
+Original *Test Stuff* were written in 2011. It has very clumsy C++ code, and a year later, in 2012, it was
+completely reborn in C with OpenGL-based rendering.
+
 License
 =======
 
