@@ -1,3 +1,25 @@
+/**
+
+          -======================-
+  >------ -====- Test Stuff -====- ------<
+          -======================-
+
+    Welcome my son, welcome to the machine.
+    Where have you been? It's alright we know where you've been.
+
+**/
+
+/*
+
+    Copyrights 2011, 2012, MEDVEDx64
+
+    Thanks to AlexX.
+
+    This game is free software and can be redistributed and/or
+    modified under the terms of the GNU General Public License v2.0.
+
+*/
+
 #include <SDL/SDL.h>
 
 #include "init.h"

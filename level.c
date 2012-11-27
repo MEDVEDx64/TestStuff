@@ -423,6 +423,10 @@ int loadCollision(int which)
     if(currentLevel.collision->format->BitsPerPixel != 8)
         fprintf(stderr, "%s warning: bad collision pixel format\n", __FUNCTION__);
 
+    if(currentLevel.collision->w != GRID_W || currentLevel.collision->h != GRID_H)
+        fprintf(stderr, "%s warning: collision size mismatch (should be %d:%d). Proceed at your own risk.\n",
+                __FUNCTION__, GRID_W, GRID_H);
+
     fprintf(stderr, " > In progress: %s ... ", fn_killmap);
     currentLevel.killmap = IMG_Load(fn_killmap);
 
