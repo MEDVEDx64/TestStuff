@@ -36,6 +36,14 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-lSDL" />
+					<Add option="-lSDLmain" />
+					<Add option="-lSDL_image" />
+					<Add option="-lGL" />
+					<Add option="-lGLU" />
+					<Add option="-ldl" />
+					<Add option="-lm" />
+					<Add option="-pthread" />
 				</Linker>
 			</Target>
 		</Build>
