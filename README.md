@@ -3,7 +3,7 @@ About
 
 *Test Stuff*, a simple game.
 
-This is \`get-a-key-go-to-exit-keep-alive\'. Completely in 2D.
+This is \`get-a-key-go-to-exit-keep-alive\`. Completely in 2D.
 There are no any story; you playing as the red square,
 looking for keys around on a level. Your enemies are:
  - *Idiot*: blue square with rotating arrows, can move only up or down.
@@ -11,7 +11,7 @@ looking for keys around on a level. Your enemies are:
 Walks in random direction, the same way like player.
  - *A turret*: shoots in random direction with a constant interval.
 Bullets can fly through the walls.
-- *The Boss*: randomly moves left or right at the top of level,
+ - *The Boss*: randomly moves left or right at the top of level,
 fires from two guns. Starts raging, when his health becomes low.
 
 There are no savegames between levels or worlds, so if you'll lost
@@ -32,7 +32,7 @@ Controls
 Compiling
 =============
 
-Type *'make'* to build *TS*. In case of linkage fault you can compile it by typing the following:
+Type *'make'* to build *Test Stuff*. In case of linkage fault you can compile it by typing the following:
 `cc *.c -o TestStuff -lSDL -lSDLmain -lSDL_image -lGL -lGLU -ldl -lm -pthread -s -O2`.
 
 License
