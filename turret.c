@@ -8,9 +8,8 @@
 
 #include <SDL/SDL.h>
 
-#define SHOT_INTERVAL 86
-
-int shot_timer = 0;
+#define SHOT_INTERVAL   86
+#define SHOT_TIMER      reservedX
 
 void turretLoop()
 {
@@ -33,8 +32,8 @@ void turretLoop()
         }
 
         /* Making random shots */
-        shot_timer ++ ;
-        if(shot_timer >= SHOT_INTERVAL)
+        currentLevel.Turrets[i].SHOT_TIMER ++ ;
+        if(currentLevel.Turrets[i].SHOT_TIMER >= SHOT_INTERVAL)
         {
             char push_dir = rand()%4+1;
 
@@ -42,7 +41,7 @@ void turretLoop()
             push_dir == 3 ? push_dir = DIR_DOWN : 0;
 
             bulletPush(currentLevel.Turrets[i].posX, currentLevel.Turrets[i].posY, push_dir, 0);
-            shot_timer = 0;
+            currentLevel.Turrets[i].SHOT_TIMER = 0;
         }
 
         i++;

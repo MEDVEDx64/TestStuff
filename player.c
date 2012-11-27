@@ -62,7 +62,7 @@ void playerLoop()
        }
 
     /* Alive? */
-    if(!PLAYER_IS_ALIVE)
+    if(PLAYER_HP < 0)
     {
         fprintf(stderr, "There`s no backups left so entering APPSTATE_GAMEOVER\n");
         GAMEOVER_ENTER;

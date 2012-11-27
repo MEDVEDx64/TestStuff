@@ -289,7 +289,7 @@ int loadTraps(int which)
     int i = 0;
     while(i < MAX_IDIOTS)
     {
-        if((int)currentLevel.Idiots[i].posX != OBJ_DISABLED)
+        if(currentLevel.Idiots[i].posX != OBJ_DISABLED)
             currentLevel.Idiots[i].isEnabled = 1;
 
         currentLevel.Idiots[i].posX *= STEP;
@@ -318,7 +318,7 @@ int loadTraps(int which)
 
     while(i < MAX_TURRETS)
     {
-        if((int)currentLevel.Turrets[i].posX != OBJ_DISABLED)
+        if(currentLevel.Turrets[i].posX != OBJ_DISABLED)
             currentLevel.Turrets[i].isEnabled = 1;
 
         currentLevel.Turrets[i].posX *= STEP;
@@ -327,7 +327,7 @@ int loadTraps(int which)
         i++;
     }
 
-    if((int)currentLevel.DrunkenBots[0].posX != OBJ_DISABLED)
+    if(currentLevel.DrunkenBots[0].posX != OBJ_DISABLED)
         currentLevel.DrunkenBots[0].isEnabled = 1;
 
     currentLevel.DrunkenBots[0].posX *= STEP;
