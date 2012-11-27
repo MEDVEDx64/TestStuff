@@ -9,6 +9,7 @@
 #include "level.h"
 #include "utils.h"
 #include "draw.h"
+#include "boss.h"
 
 t_Level currentLevel =
 {
@@ -436,7 +437,6 @@ int loadCollision(int which)
 
 int levelSwitch(int id)
 {
-
     fprintf(stderr, "Loading level %d:\n", id);
 
     /* Checking for new id isn`t null */
@@ -475,10 +475,10 @@ int levelSwitch(int id)
 
     fprintf(stderr, " > Resetting objects\n");
     playerReset();
+    bossReset();
 
     fprintf(stderr, "Done.\n");
     return 0;
-
 }
 
 void levelLoop()

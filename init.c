@@ -32,7 +32,7 @@ int loadImages()
         tmpSurf = IMG_Load(fnames[i]);
         if(tmpSurf == NULL)
         {
-            printf("failed. Aborting.\n");
+            fprintf(stderr, "failed. Aborting.\n");
             return 1;
         }
 

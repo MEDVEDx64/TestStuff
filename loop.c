@@ -1,3 +1,4 @@
+#include "boss.h"
 #include "loop.h"
 #include "text.h"
 #include "menu.h"
@@ -84,6 +85,7 @@ void loop()
             portalLoop();
             turretLoop();
             bulletLoop();
+            bossLoop();
 
             /* Switching back to the menu if ESC is pressed */
             if(kpGetState(SDLK_ESCAPE) == KPSTATE_DOWN)

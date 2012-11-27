@@ -8,10 +8,8 @@
 void bulletPush(int from_x, int from_y, t_Direction dir, int player_origin);
 
 void bulletLoop();
-void bulletDraw();
+void bulletDraw(int is_player);
 
 void bulletReset();
-
-extern t_Object bullets[MAX_BULLETS];
 
 #endif // _BULLET_H

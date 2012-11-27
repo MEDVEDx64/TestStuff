@@ -5,20 +5,21 @@
 #include <malloc.h>
 #include <string.h>
 
-char *text_str = NULL;
+#define TEXT_BUFLEN 0x1000
+
+char text_str[TEXT_BUFLEN];
 
 void textSetString(const char *str)
 {
-    if(text_str != NULL)
-        free(text_str);
-
     if(str == NULL)
     {
-        text_str = NULL;
+        text_str[0] = '\0';
         return;
     }
 
-    text_str = malloc(strlen(str));
+    if(strlen(str)  > TEXT_BUFLEN)
+        fprintf(stderr, "%s warning: too large input string!\n", __FUNCTION__);
+
     memset(text_str, '\0', strlen(str));
     strcpy(text_str, str);
 }

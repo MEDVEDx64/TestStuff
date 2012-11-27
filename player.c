@@ -2,22 +2,24 @@
 #include "level.h"
 #include "reset.h"
 #include "utils.h"
+#include "bullet.h"
 #include "player.h"
 #include "portal.h"
 #include "global.h"
+#include "keypress.h"
 #include "gameover.h"
 
 #include <SDL/SDL.h>
 
-#define PLAYER_RANDOM_SPAWN                             \
-    do                                                  \
-    {                                                   \
-        if(currentLevel.flags & IS_BOSS_LEVEL)          \
-        {                                               \
-            player.posX = ((rand()%GRID_W-2)+1)*STEP;   \
-            player.posY = (GRID_H-2)*STEP;              \
-        }                                               \
-    }                                                   \
+#define PLAYER_RANDOM_SPAWN                                 \
+    do                                                      \
+    {                                                       \
+        if(currentLevel.flags & IS_BOSS_LEVEL)              \
+        {                                                   \
+            player.posX = ((rand()%(GRID_W-2))+1)*STEP;     \
+            player.posY = (GRID_H-2)*STEP;                  \
+        }                                                   \
+    }                                                       \
     while(0)
 
 #define GODMODE_INITIAL     60
@@ -79,6 +81,13 @@ void playerLoop()
             fprintf(stderr, "Player contacted with kill collision\n");
             playerSlay();
         }
+
+    /* Player can shoot in boss-level */
+    if((kpGetState(SDLK_SPACE) == KPSTATE_DOWN || kpGetState(SDLK_SPACE) == KPSTATE_UP)
+       && currentLevel.flags & IS_BOSS_LEVEL)
+            bulletPush(player.posX,
+                       player.posY,
+                       DIR_UP, 1);
 
     /* Keep walking! */
     if(!is_walk) return;

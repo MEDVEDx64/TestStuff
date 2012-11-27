@@ -1,12 +1,17 @@
+#include "boss.h"
 #include "draw.h"
+#include "level.h"
 #include "utils.h"
 #include "player.h"
 #include "global.h"
 #include "bullet.h"
+
 #include <string.h>
 #include <SDL/SDL.h>
 
 t_Object bullets[MAX_BULLETS];
+
+static int cur = 0;
 
 #define BULLET_PLAYER_ORIGIN    generic
 #define BUL_SPEED               2
@@ -42,7 +47,7 @@ void bulletPush(int from_x, int from_y, t_Direction dir, int player_origin)
 
 void bulletLoop()
 {
-    /* Creating bullet's and player's rectangles */
+    /* Creating rectangles */
     SDL_Rect plr_rect;
 
     plr_rect.x = player.posX;
@@ -55,12 +60,18 @@ void bulletLoop()
     bul_rect.w = STEP;
     bul_rect.h = STEP;
 
+    SDL_Rect boss_rect = {
+        boss.posX, boss.posY,
+        images[IMG_BOSS].w,
+        images[IMG_BOSS].h
+    };
+
     /* Running the cycle */
-    int i = 0;
-    while(i < MAX_BULLETS)
+    int i;
+    for (i = 0; i < MAX_BULLETS; i++)
     {
         /* Checking for existence */
-        if(!bullets[i].isEnabled) return;
+        if(!bullets[i].isEnabled) continue;
 
         /* Make `em fly */
         switch(bullets[i].direction)
@@ -71,11 +82,6 @@ void bulletLoop()
             case DIR_LEFT:      bullets[i].posX -= BUL_SPEED; break;
         }
 
-        /* Deleting bullet when it leaves level's bounds */
-        if(bullets[i].posX < -STEP || bullets[i].posY < -STEP ||
-           bullets[i].posX > GRID_W*STEP+STEP || bullets[i].posY > GRID_H*STEP+STEP)
-                bullets[i].isEnabled = 0;
-
         /* Checking for contacting with player */
         bul_rect.x = bullets[i].posX;
         bul_rect.y = bullets[i].posY;
@@ -83,30 +89,43 @@ void bulletLoop()
         {
             fprintf(stderr, "Player contacted with a bullet\n");
             playerSlay();
-
-            /* Dont forget to delete the bullet once it hit the player
-               (or somebody else) */
             bullets[i].isEnabled = 0;
         }
 
-        /** SAME FOR BOSS HERE **/
-
-        i++;
+        /* And the boss */
+        if(currentLevel.flags&IS_BOSS_LEVEL && boss.BOSS_HP)
+        {
+            if(isRectsCrosses(boss_rect, bul_rect) && bullets[i].BULLET_PLAYER_ORIGIN)
+            {
+                boss.BOSS_HP -- ;
+                bullets[i].isEnabled = 0;
+            }
+        }
     }
 }
 
-void bulletDraw()
+void bulletDraw(int is_player)
 {
-    int i = 0;
-    while(i < MAX_BULLETS)
+    int i;
+    for(i = 0; i < MAX_BULLETS; i++)
     {
-        if(!bullets[i].isEnabled) return;
+        if(!bullets[i].isEnabled) continue;
+
+        if(is_player)
+        {
+            if(!bullets[i].BULLET_PLAYER_ORIGIN) continue;
+        }
+        else
+        {
+            if(bullets[i].BULLET_PLAYER_ORIGIN) continue;
+        }
+
         drawImage(&images[IMG_BULLET], bullets[i].posX, bullets[i].posY, NULL);
-        i++;
     }
 }
 
 void bulletReset()
 {
     memset(&bullets, 0, sizeof(t_Object)*MAX_BULLETS);
+    cur = 0;
 }

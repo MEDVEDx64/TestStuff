@@ -28,12 +28,12 @@ void idiotLoop()
     idiotRect.w = STEP;
     idiotRect.h = STEP;
 
-    int i = 0;
+    int i;
 
     /* Processing all the Idiots */
-    while(i < MAX_IDIOTS)
+    for(i = 0; i < MAX_IDIOTS; i++)
     {
-        if(!currentLevel.Idiots[i].isEnabled) return;
+        if(!currentLevel.Idiots[i].isEnabled) continue;
 
         switch(currentLevel.Idiots[i].direction)
         {
@@ -69,33 +69,38 @@ void idiotLoop()
             fprintf(stderr, "Player contacted with Idiot (%d)\n", i);
             playerSlay();
         }
-
-        i++;
     }
 }
 
-#define IDIOT_ANIM_INTERVAL 8
+#define IDIOT_ANIM_INTERVAL 32
 #define IDIOT_FRAMES        4
-int idiot_tick = 0;
+int idiot_tick  = 0;
+int idiot_frame = 0;
 
 void idiotDraw()
 {
     /* Animation tick */
     idiot_tick ++ ;
-    if(idiot_tick >= IDIOT_FRAMES)
+    if(idiot_tick >= IDIOT_ANIM_INTERVAL)
         idiot_tick = 0;
 
+    if(!idiot_tick)
+        idiot_frame ++ ;
+
+    if(idiot_frame >= IDIOT_FRAMES)
+        idiot_frame = 0;
+
     /* Draw `em. */
-    int i = 0;
-    while(i < MAX_IDIOTS)
+    int i;
+    for(i = 0; i < MAX_IDIOTS; i++)
     {
-        if(!currentLevel.Idiots[i].isEnabled) return;
+        if(!currentLevel.Idiots[i].isEnabled) continue;
 
         /* Rect to be cuted from sprite */
         SDL_Rect draw_r;
 
         draw_r.x = 0;
-        draw_r.y = idiot_tick * STEP;
+        draw_r.y = idiot_frame * STEP;
         draw_r.w = STEP;
         draw_r.h = STEP;
 
@@ -103,7 +108,5 @@ void idiotDraw()
                   currentLevel.Idiots[i].posX,
                   currentLevel.Idiots[i].posY,
                   &draw_r);
-
-        i++;
     }
 }

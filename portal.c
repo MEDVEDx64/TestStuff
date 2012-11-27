@@ -10,12 +10,12 @@
 
 void portalLoop()
 {
-    int i = 0;
-    while(i < MAX_PORTALS)
+    int i;
+    for(i = 0; i < MAX_PORTALS; i++)
     {
         /* Checking portals for existence */
         if(!currentLevel.Portals[i].isEnabled
-        ||  currentLevel.Portals[i].ACTIVATED) return;
+        ||  currentLevel.Portals[i].ACTIVATED) continue;
 
         /* Teleporting player */
         if(player.posX == currentLevel.Portals[i].posX &&
@@ -31,8 +31,6 @@ void portalLoop()
 
                currentLevel.Portals[i].ACTIVATED = 1;
            }
-
-        i++;
     }
 }
 
@@ -42,10 +40,10 @@ void portalDraw()
     r.w = STEP;
     r.h = STEP;
 
-    int i = 0;
-    while(i < MAX_PORTALS)
+    int i;
+    for(i = 0; i < MAX_PORTALS; i++)
     {
-        if(!currentLevel.Portals[i].isEnabled) return;
+        if(!currentLevel.Portals[i].isEnabled) continue;
 
         r.y = currentLevel.Portals[i].ACTIVATED ? STEP : 0;
 
@@ -58,8 +56,6 @@ void portalDraw()
         r.x = STEP;
         drawImage(&images[IMG_PORTAL],  currentLevel.Portals[i].destX,
                                         currentLevel.Portals[i].destY, &r);
-
-        i++;
     }
 }
 

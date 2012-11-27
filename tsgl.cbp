@@ -42,6 +42,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="boss.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="boss.h" />
 		<Unit filename="bullet.c">
 			<Option compilerVar="CC" />
 		</Unit>

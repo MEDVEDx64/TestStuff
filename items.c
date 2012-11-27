@@ -77,7 +77,7 @@ void itemsDraw()
         if(currentLevel.Keys[i].isEnabled)
             drawImage(&images[IMG_ITEMS],
                       currentLevel.Keys[i].posX,
-                      currentLevel.Keys[i].posY,
+                      currentLevel.Keys[i].posY+1, /* Keys should be drawn lower by 1 pixel */
                       &r);
 
         i++;

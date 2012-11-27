@@ -1,5 +1,6 @@
 #include <GL/gl.h>
 
+#include "boss.h"
 #include "draw.h"
 #include "text.h"
 #include "menu.h"
@@ -82,17 +83,22 @@ void draw()
 
             itemsDraw();
             portalDraw();
+            bulletDraw(1); /* bullets shot by player */
             playerDraw();
             idiotDraw();
             drunkenbotDraw();
-            bulletDraw();
+            bulletDraw(0); /* all the rest */
             turretDraw();
+            bossDraw();
 
             levelDrawForeground();
 
             /* Darkness layer here */
             if(currentLevel.flags & IS_DARK_LEVEL)
                 drawImage(&images[IMG_DARKNESS], player.posX-(SCRW+STEP/2), player.posY-(SCRH+STEP/2), NULL);
+
+            /* Boss' HP bar */
+            bossDrawHPBar();
 
             break;
 

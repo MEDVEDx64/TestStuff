@@ -16,10 +16,10 @@ void turretLoop()
     SDL_Rect plr_rect = { player.posX, player.posY, STEP, STEP };
     SDL_Rect tur_rect = { 0, 0, STEP, STEP };
 
-    int i = 0;
-    while(i < MAX_TURRETS)
+    int i;
+    for(i = 0; i < MAX_TURRETS; i++)
     {
-        if(!currentLevel.Turrets[i].isEnabled) return;
+        if(!currentLevel.Turrets[i].isEnabled) continue;
 
         /* Kill the player when contacted */
         tur_rect.x = currentLevel.Turrets[i].posX;
@@ -43,18 +43,15 @@ void turretLoop()
             bulletPush(currentLevel.Turrets[i].posX, currentLevel.Turrets[i].posY, push_dir, 0);
             currentLevel.Turrets[i].SHOT_TIMER = 0;
         }
-
-        i++;
     }
 }
 
 void turretDraw()
 {
-    int i = 0;
-    while(i < MAX_TURRETS)
+    int i;
+    for(i = 0; i < MAX_TURRETS; i++)
     {
-        if(!currentLevel.Turrets[i].isEnabled) return;
+        if(!currentLevel.Turrets[i].isEnabled) continue;
         drawImage(&images[IMG_TURRET], currentLevel.Turrets[i].posX, currentLevel.Turrets[i].posY, NULL);
-        i++;
     }
 }
