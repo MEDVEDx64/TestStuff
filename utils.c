@@ -1,3 +1,12 @@
+/*
+
+utils.c
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #include "utils.h"
 #include "level.h"
 #include "global.h"

@@ -1,8 +1,16 @@
+/*
+
+text.c
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #include "draw.h"
 #include "text.h"
 #include "global.h"
 
-#include <malloc.h>
 #include <string.h>
 
 #define TEXT_BUFLEN 0x1000
@@ -46,7 +54,7 @@ struct fontMap {
     {'7', 7,  42},  {'8', 7, 49},   {'9', 7, 56},   {'0', 7, 63},
     {'.', 7,  70},  {',', 7, 77},   {':', 7, 84},   {'[', 7, 91},
     {']', 7,  98},  {'=', 7, 105},  {'-', 7, 112},  {' ', 7, 119},
-    {'*', 7, 175},  {'_', 7, 119}
+    {'*', 7, 175},  {'_', 7, 119},  {'(', 7, 91},   {')', 7, 98}
 };
 
 void textDraw()

@@ -1,7 +1,21 @@
+/*
+
+global.h
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #ifndef GLOBAL_H_INCLUDED
 #define GLOBAL_H_INCLUDED
 
-#define VERSION "2.0.1_beta2"
+#define VERSION_ "2.0.1_beta2"
+#ifdef DEBUG
+#   define VERSION VERSION_ " (debug build)"
+#else
+#   define VERSION VERSION_
+#endif
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>

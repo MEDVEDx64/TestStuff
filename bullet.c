@@ -1,3 +1,12 @@
+/*
+
+bullet.c
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #include "boss.h"
 #include "draw.h"
 #include "level.h"
@@ -42,7 +51,7 @@ void bulletPush(int from_x, int from_y, t_Direction dir, int player_origin)
     }
 
     if(!found)
-        fprintf(stderr, "%s: buffer overflow, shoot rejected\n", __FUNCTION__);
+        fprintf(stderr, "%s: buffer overflow, shot rejected\n", __FUNCTION__);
 }
 
 void bulletLoop()
@@ -85,7 +94,7 @@ void bulletLoop()
         /* Deleting bullet when it leaves level's bounds */
         if(bullets[i].posX < -STEP || bullets[i].posY < -STEP ||
            bullets[i].posX > GRID_W*STEP+STEP || bullets[i].posY > GRID_H*STEP+STEP)
-                bullets[i].isEnabled = 0;\
+                bullets[i].isEnabled = 0;
 
         /* Checking for contacting with player */
         bul_rect.x = bullets[i].posX;

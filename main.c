@@ -11,14 +11,16 @@
 
 /*
 
-    Copyrights 2011, 2012, MEDVEDx64
+    Copyrights 2011, 2012, Andrey Bobkov (MEDVEDx64)
 
-    Thanks to AlexX.
+    Thanks to Alexey Dolzhenkov (AlexX).
 
     This game is free software and can be redistributed and/or
     modified under the terms of the GNU General Public License v2.0.
 
 */
+
+/* This file is a part of Test Stuff 2.x source code. */
 
 #include <SDL/SDL.h>
 
@@ -48,7 +50,6 @@ void fpsControl()
     }
 }
 
-
 char isRunning = 1;
 char appState = APPSTATE_INTRO;
 
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
     }
 
     fprintf(stderr, "FPS limit is set to %d\n", FPS);
-    unsigned long long cycles = 0;
+    unsigned int cycles = 0;
     while(isRunning)
     {
         loop();
@@ -71,7 +72,8 @@ int main(int argc, char *argv[])
         cycles++;
     }
 
-    fprintf(stderr, "Cycles: %llu\n", cycles);
+    fprintf(stderr, "Cycles: %u\n", cycles);
     cleanup();
+    fprintf(stderr, "Shutting down.\n");
     return 0;
 }

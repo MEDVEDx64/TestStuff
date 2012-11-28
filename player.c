@@ -1,3 +1,12 @@
+/*
+
+player.c
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #include "draw.h"
 #include "level.h"
 #include "reset.h"
@@ -35,7 +44,7 @@ int godmode = 0;
 
 int isPlayerOnSpawnPoint()
 {
-    return   (player.posX == currentLevel.spawnX ? 1 : 0)
+    return    (player.posX == currentLevel.spawnX ? 1 : 0)
             & (player.posY == currentLevel.spawnY ? 1 : 0);
 }
 
@@ -57,8 +66,8 @@ void playerLoop()
            fprintf(stderr, "Player reaches the level's exit\n");
            if(levelSwitch(currentLevel.id + 1))
            {
-                fprintf(stderr, "WARNING: Next level had failed to load!\n"
-                               "Cowardly running back to the main menu.\n");
+                fprintf(stderr, "WARNING: Next level has failed to load!\n"
+                                "Cowardly running back to the main menu.\n");
                 GET_BACK_TO_MENU;
            }
        }

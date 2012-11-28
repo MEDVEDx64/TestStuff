@@ -1,3 +1,12 @@
+/*
+
+loop.c
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #include "boss.h"
 #include "loop.h"
 #include "text.h"
@@ -23,7 +32,11 @@ void loop()
     kpLoop();
 
 #ifdef DEBUG
-    if(kpGetState(SDLK_q)) isRunning = 0;
+    if(kpGetState(SDLK_q))
+    {
+        fprintf(stderr, "Q key were pressed, setting isRunning to 0\n");
+        isRunning = 0;
+    }
 #endif
 
     switch(appState)

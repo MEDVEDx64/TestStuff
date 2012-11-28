@@ -1,3 +1,12 @@
+/*
+
+direction.h
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #ifndef _DIRECTION_H
 #define _DIRECTION_H
 

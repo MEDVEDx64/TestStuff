@@ -1,3 +1,12 @@
+/*
+
+init.c
+
+This file is a part of Test Stuff 2.x source code.
+Comes under the terms of GNU General Public License v.2.0.
+
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 #include <malloc.h>
@@ -19,7 +28,7 @@ t_Image *images = NULL;
 int loadImages()
 {
     // Here we gonna load some images
-    fprintf(stderr, "Calling %s to load some general images:\n", __FUNCTION__);
+    fprintf(stderr, "Calling %s:\n", __FUNCTION__);
 
     images = malloc(IMAGES*sizeof(t_Image));
     memset(images, 0, IMAGES*sizeof(t_Image));
