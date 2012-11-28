@@ -82,6 +82,11 @@ void bulletLoop()
             case DIR_LEFT:      bullets[i].posX -= BUL_SPEED; break;
         }
 
+        /* Deleting bullet when it leaves level's bounds */
+        if(bullets[i].posX < -STEP || bullets[i].posY < -STEP ||
+           bullets[i].posX > GRID_W*STEP+STEP || bullets[i].posY > GRID_H*STEP+STEP)
+                bullets[i].isEnabled = 0;\
+
         /* Checking for contacting with player */
         bul_rect.x = bullets[i].posX;
         bul_rect.y = bullets[i].posY;

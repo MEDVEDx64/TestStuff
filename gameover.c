@@ -3,9 +3,9 @@
 #include "gameover.h"
 
 #define X_ORIGIN SCRW/2-images[IMG_GAMEOVER].w/2
-#define Y_ORIGIN /* -images[IMG_GAMEOVER].h */ 0
+#define Y_ORIGIN -(signed)images[IMG_GAMEOVER].h
 
-#define DEST_Y SCRH/2-images[IMG_GAMEOVER].h/2
+#define DEST_Y SCRH/2-(signed)images[IMG_GAMEOVER].h/2
 
 int go_posX = 0;
 int go_posY = 0;

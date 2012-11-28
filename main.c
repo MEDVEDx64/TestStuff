@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    fprintf(stderr, "FPS is set to %d\n", FPS);
+    fprintf(stderr, "FPS limit is set to %d\n", FPS);
     unsigned long long cycles = 0;
     while(isRunning)
     {

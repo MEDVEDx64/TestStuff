@@ -102,7 +102,7 @@ int init()
         return 1;
 
     kpCreateSpace();
-    SDL_WM_SetCaption("TestStuff", 0);
+    SDL_WM_SetCaption("Test Stuff", 0);
     fprintf(stderr, "INIT OK. Entering the main loop.\n");
     return 0;
 }

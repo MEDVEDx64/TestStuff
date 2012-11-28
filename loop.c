@@ -21,7 +21,10 @@ void loop()
 {
 
     kpLoop();
+
+#ifdef DEBUG
     if(kpGetState(SDLK_q)) isRunning = 0;
+#endif
 
     switch(appState)
     {
