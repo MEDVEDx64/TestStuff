@@ -16,7 +16,7 @@ Comes under the terms of GNU General Public License v.2.0.
 
 void itemsLoop()
 {
-    SDL_Rect plrRect;
+    static SDL_Rect plrRect;
 
     plrRect.x = (int)player.posX;
     plrRect.y = (int)player.posY;
@@ -24,12 +24,12 @@ void itemsLoop()
     plrRect.w = STEP;
     plrRect.h = STEP;
 
-    SDL_Rect itmRect;
+    static SDL_Rect itmRect;
 
     itmRect.w = STEP;
     itmRect.h = STEP;
 
-    int i = 0;
+    register int i = 0;
     while(i < MAX_KEYS)
     {
         if(currentLevel.Keys[i].isEnabled)
@@ -72,9 +72,9 @@ void itemsLoop()
 
 void itemsDraw()
 {
-    int i = 0;
+    register int i = 0;
 
-    SDL_Rect r;
+    static SDL_Rect r;
     r.x = 0;
     r.y = 0;
     r.w = STEP;

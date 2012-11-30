@@ -29,6 +29,7 @@ Comes under the terms of GNU General Public License v.2.0.
 void loop()
 {
 
+    /* Keyboard handling */
     kpLoop();
 
 #ifdef DEBUG

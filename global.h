@@ -10,7 +10,7 @@ Comes under the terms of GNU General Public License v.2.0.
 #ifndef GLOBAL_H_INCLUDED
 #define GLOBAL_H_INCLUDED
 
-#define VERSION_ "2.0.1_beta2"
+#define VERSION_ "2.0.1_beta3"
 #ifdef DEBUG
 #   define VERSION VERSION_ " (debug build)"
 #else

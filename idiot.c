@@ -24,7 +24,7 @@ Comes under the terms of GNU General Public License v.2.0.
 void idiotLoop()
 {
     /* Creating rectangles */
-    SDL_Rect plrRect;
+    static SDL_Rect plrRect;
 
     plrRect.x = player.posX;
     plrRect.y = player.posY;
@@ -32,12 +32,12 @@ void idiotLoop()
     plrRect.w = STEP;
     plrRect.h = STEP;
 
-    SDL_Rect idiotRect;
+    static SDL_Rect idiotRect;
 
     idiotRect.w = STEP;
     idiotRect.h = STEP;
 
-    int i;
+    register int i;
 
     /* Processing all the Idiots */
     for(i = 0; i < MAX_IDIOTS; i++)
@@ -100,13 +100,13 @@ void idiotDraw()
         idiot_frame = 0;
 
     /* Draw `em. */
-    int i;
+    register int i;
     for(i = 0; i < MAX_IDIOTS; i++)
     {
         if(!currentLevel.Idiots[i].isEnabled) continue;
 
         /* Rect to be cuted from sprite */
-        SDL_Rect draw_r;
+        static SDL_Rect draw_r;
 
         draw_r.x = 0;
         draw_r.y = idiot_frame * STEP;

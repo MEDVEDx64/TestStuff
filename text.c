@@ -59,16 +59,15 @@ struct fontMap {
 
 void textDraw()
 {
-    if(text_str == NULL) return;
-
-    SDL_Rect r;
+    static SDL_Rect r;
     r.w = FONT_SIZE;
     r.h = FONT_SIZE;
 
-    int i,x;
+    register int i,x;
+    static int len_v = sizeof(fontMap)/sizeof(fontMap[0]);
     for(i = 0; i < strlen(text_str); i++)
     {
-        for(x = 0; x < sizeof(fontMap)/sizeof(fontMap[0]); x++)
+        for(x = 0; x < len_v; x++)
         {
             if(text_str[i] == fontMap[x].c)
             {

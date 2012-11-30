@@ -25,10 +25,12 @@ Comes under the terms of GNU General Public License v.2.0.
 
 void drawImage(t_Image *image, int x, int y, SDL_Rect *draw_rect)
 {
+#ifdef DEBUG
     if(!image->gl_tex)
         return;
+#endif
 
-    SDL_Rect r;
+    static SDL_Rect r;
     if (draw_rect) {
         r.x = draw_rect->x;
         r.y = draw_rect->y;

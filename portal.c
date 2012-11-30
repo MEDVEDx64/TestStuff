@@ -19,7 +19,7 @@ Comes under the terms of GNU General Public License v.2.0.
 
 void portalLoop()
 {
-    int i;
+    register int i;
     for(i = 0; i < MAX_PORTALS; i++)
     {
         /* Checking portals for existence */
@@ -45,11 +45,11 @@ void portalLoop()
 
 void portalDraw()
 {
-    SDL_Rect r;
+    static SDL_Rect r;
     r.w = STEP;
     r.h = STEP;
 
-    int i;
+    register int i;
     for(i = 0; i < MAX_PORTALS; i++)
     {
         if(!currentLevel.Portals[i].isEnabled) continue;
@@ -70,7 +70,7 @@ void portalDraw()
 
 void portalReset()
 {
-    int i = 0;
+    register int i = 0;
     while(i < MAX_PORTALS)
     {
         currentLevel.Portals[i].ACTIVATED = 0;

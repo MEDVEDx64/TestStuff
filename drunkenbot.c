@@ -104,14 +104,14 @@ void drunkenbotLoop()
     }
 
     /* Slayin` the Player */
-    SDL_Rect db_rect;
+    static SDL_Rect db_rect;
 
     db_rect.x = currentLevel.DrunkenBots[0].posX;
     db_rect.y = currentLevel.DrunkenBots[0].posY;
     db_rect.w = STEP;
     db_rect.h = STEP;
 
-    SDL_Rect plr_rect;
+    static SDL_Rect plr_rect;
 
     plr_rect.x = player.posX;
     plr_rect.y = player.posY;

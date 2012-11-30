@@ -32,11 +32,13 @@ char kpGetState(unsigned int button)
 
 void kpLoop()
 {
-    int i;
-    for(i = 0; i < KEYSC; i++)
+    register int i = 0;
+    while(i < KEYSC)
     {
         if(keyst[i] == KPSTATE_DOWN) keyst[i] = KPSTATE_PRESSED;
         if(keyst[i] == KPSTATE_UP)   keyst[i] = KPSTATE_NULL;
+
+        i++;
     }
 
     SDL_Event ev;

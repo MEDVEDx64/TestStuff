@@ -12,9 +12,6 @@ Comes under the terms of GNU General Public License v.2.0.
 
 #include "direction.h"
 
-#define OBJ_DISABLED        999
-#define OBJ_RANDOM          99
-
 /* Universal object struct here */
 
 typedef struct

@@ -18,7 +18,7 @@ Comes under the terms of GNU General Public License v.2.0.
 #include <string.h>
 #include <SDL/SDL.h>
 
-t_Object bullets[MAX_BULLETS];
+static t_Object bullets[MAX_BULLETS];
 
 static int cur = 0;
 
@@ -29,7 +29,7 @@ void bulletPush(int from_x, int from_y, t_Direction dir, int player_origin)
 {
     /* Looking for a free slot */
     int found = 0;
-    int i = 0;
+    register int i = 0;
     while(i < MAX_BULLETS)
     {
         /* When we found a free slot, a new bullet will be created */
@@ -57,14 +57,14 @@ void bulletPush(int from_x, int from_y, t_Direction dir, int player_origin)
 void bulletLoop()
 {
     /* Creating rectangles */
-    SDL_Rect plr_rect;
+    static SDL_Rect plr_rect;
 
     plr_rect.x = player.posX;
     plr_rect.y = player.posY;
     plr_rect.w = STEP;
     plr_rect.h = STEP;
 
-    SDL_Rect bul_rect;
+    static SDL_Rect bul_rect;
 
     bul_rect.w = STEP;
     bul_rect.h = STEP;
@@ -76,7 +76,7 @@ void bulletLoop()
     };
 
     /* Running the cycle */
-    int i;
+    register int i;
     for (i = 0; i < MAX_BULLETS; i++)
     {
         /* Checking for existence */
@@ -120,7 +120,7 @@ void bulletLoop()
 
 void bulletDraw(int is_player)
 {
-    int i;
+    register int i;
     for(i = 0; i < MAX_BULLETS; i++)
     {
         if(!bullets[i].isEnabled) continue;

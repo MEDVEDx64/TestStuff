@@ -144,9 +144,9 @@ int loadConf(int which)
     int dummy__    = 0;
 
     if(fscanf(f, "[Level]\n Type = %i\n SpawnX = %i\n SpawnY = %i\n ExitX = %i\n "
-                  "ExitY = %i\n KeyReq = %i\n Darkness = %i\n\n[Background]\nBGType = %i\nBGSpeed "
+                  "ExitY = %i\n KeyReq = %u\n Darkness = %i\n\n[Background]\nBGType = %i\nBGSpeed "
                   "= %f\n BGDirection = %i\n \n [Foreground]\nEnabled = %i\n\n[Banner]\n "
-                  "Enabled = %i\n\n[Boss]\n Health = %i\nShotInterval = %i",
+                  "Enabled = %i\n\n[Boss]\n Health = %u\nShotInterval = %u",
 
                   &type__, &currentLevel.spawnX, &currentLevel.spawnY, &currentLevel.exitX,
                   &currentLevel.exitY, &currentLevel.keysRequired, &dark__, &dummy__,
@@ -158,6 +158,13 @@ int loadConf(int which)
                       return 1;
                   }
 
+    /* Some validity checks */
+    if(currentLevel.keysRequired > MAX_KEYS)
+        fprintf(stderr, "%s warning: bad keysRequired value\n", __FUNCTION__);
+
+    if(type__ == 2 && currentLevel.bossHP > SCRW)
+        fprintf(stderr, "%s warning: bad bossHP value\n", __FUNCTION__);
+
     /* Fixing BGdirection */
          if(currentLevel.BGdirection == 3) currentLevel.BGdirection = DIR_DOWN;
     else if(currentLevel.BGdirection == 4) currentLevel.BGdirection = DIR_LEFT;
@@ -166,7 +173,7 @@ int loadConf(int which)
     dark__ ? currentLevel.flags |= IS_DARK_LEVEL : 0;
 
     /* Is it a boss level? */
-    type__ == 2? currentLevel.flags |= IS_BOSS_LEVEL : 0;
+    type__ == 2 ? currentLevel.flags |= IS_BOSS_LEVEL : 0;
 
     currentLevel.spawnX *= STEP;
     currentLevel.spawnY *= STEP;
@@ -220,14 +227,17 @@ int loadItems(int which)
     int i = 0;
     while(i < MAX_1UPS)
     {
-        currentLevel.Keys[i]    .isEnabled = currentLevel.Keys[i].    posX == OBJ_DISABLED ? 0 : 1;
-        currentLevel._1UPs[i]   .isEnabled = currentLevel._1UPs[i].   posX == OBJ_DISABLED ? 0 : 1;
-
         currentLevel.Keys[i].posX *= STEP;
         currentLevel.Keys[i].posY *= STEP;
 
         currentLevel._1UPs[i].posX *= STEP;
         currentLevel._1UPs[i].posY *= STEP;
+
+        if(!isOutOfBounds(currentLevel.Keys[i].posX,
+                          currentLevel.Keys[i].posY)) currentLevel.Keys[i].isEnabled = 1;
+
+        if(!isOutOfBounds(currentLevel._1UPs[i].posX,
+                          currentLevel._1UPs[i].posY)) currentLevel._1UPs[i].isEnabled = 1;
 
         i++;
     }
@@ -299,11 +309,11 @@ int loadTraps(int which)
     int i = 0;
     while(i < MAX_IDIOTS)
     {
-        if(currentLevel.Idiots[i].posX != OBJ_DISABLED)
-            currentLevel.Idiots[i].isEnabled = 1;
-
         currentLevel.Idiots[i].posX *= STEP;
         currentLevel.Idiots[i].posY *= STEP;
+
+        if(!isOutOfBounds(currentLevel.Idiots[i].posX,
+                          currentLevel.Idiots[i].posY)) currentLevel.Idiots[i].isEnabled = 1;
 
         i++;
     }
@@ -312,14 +322,14 @@ int loadTraps(int which)
 
     while(i < MAX_PORTALS)
     {
-        if(currentLevel.Portals[i].posX != OBJ_DISABLED)
-            currentLevel.Portals[i].isEnabled = 1;
-
         currentLevel.Portals[i].posX *= STEP;
         currentLevel.Portals[i].posY *= STEP;
 
         currentLevel.Portals[i].destX *= STEP;
         currentLevel.Portals[i].destY *= STEP;
+
+        if(!isOutOfBounds(currentLevel.Portals[i].posX,
+                          currentLevel.Portals[i].posY)) currentLevel.Portals[i].isEnabled = 1;
 
         i++;
     }
@@ -328,20 +338,20 @@ int loadTraps(int which)
 
     while(i < MAX_TURRETS)
     {
-        if(currentLevel.Turrets[i].posX != OBJ_DISABLED)
-            currentLevel.Turrets[i].isEnabled = 1;
-
         currentLevel.Turrets[i].posX *= STEP;
         currentLevel.Turrets[i].posY *= STEP;
+
+        if(!isOutOfBounds(currentLevel.Turrets[i].posX,
+                          currentLevel.Turrets[i].posY)) currentLevel.Turrets[i].isEnabled = 1;
 
         i++;
     }
 
-    if(currentLevel.DrunkenBots[0].posX != OBJ_DISABLED)
-        currentLevel.DrunkenBots[0].isEnabled = 1;
-
     currentLevel.DrunkenBots[0].posX *= STEP;
     currentLevel.DrunkenBots[0].posY *= STEP;
+
+    if(!isOutOfBounds(currentLevel.DrunkenBots[0].posX,
+                          currentLevel.DrunkenBots[0].posY)) currentLevel.DrunkenBots[0].isEnabled = 1;
 
     /* Finish it. */
     free(f_name);
@@ -530,11 +540,13 @@ void levelLoop()
 
 void levelDrawForeground()
 {
-    drawImage(&currentLevel.FGlayer, 0, 0, NULL);
+    if(currentLevel.FGlayer.gl_tex)
+        drawImage(&currentLevel.FGlayer, 0, 0, NULL);
 }
 
 void levelDrawAllTheRest()
 {
-    drawImage(&currentLevel.BGlayer, bgX, bgY, NULL);
+    if(currentLevel.BGlayer.gl_tex)
+        drawImage(&currentLevel.BGlayer, bgX, bgY, NULL);
     drawImage(&currentLevel.INTlayer, 0, 0, NULL);
 }

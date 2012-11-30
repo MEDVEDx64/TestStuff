@@ -25,7 +25,7 @@ void turretLoop()
     SDL_Rect plr_rect = { player.posX, player.posY, STEP, STEP };
     SDL_Rect tur_rect = { 0, 0, STEP, STEP };
 
-    int i;
+    register int i;
     for(i = 0; i < MAX_TURRETS; i++)
     {
         if(!currentLevel.Turrets[i].isEnabled) continue;
@@ -57,7 +57,7 @@ void turretLoop()
 
 void turretDraw()
 {
-    int i;
+    register int i;
     for(i = 0; i < MAX_TURRETS; i++)
     {
         if(!currentLevel.Turrets[i].isEnabled) continue;

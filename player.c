@@ -148,6 +148,12 @@ void playerDraw()
 
 void playerSlay()
 {
+    if(PLAYER_HP < 0)
+    {
+        fprintf(stderr, "%s: player`s already dead\n", __FUNCTION__);
+        return;
+    }
+
     if(godmode)
     {
         fprintf(stderr, "%s: rejected due to godmode or spawn protection\n", __FUNCTION__);
