@@ -10,7 +10,7 @@ Comes under the terms of GNU General Public License v.2.0.
 #ifndef _BULLET_H
 #define _BULLET_H
 
-#define MAX_BULLETS             0x200
+#define MAX_BULLETS             0x80
 
 #include "object.h"
 

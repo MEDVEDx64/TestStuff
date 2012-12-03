@@ -47,7 +47,7 @@ int loadImages()
 
         if(surf2Image(tmpSurf, &images[i]))
         {
-            fprintf(stderr, "failed.\nIt may mean that texture you`re trying"
+            fprintf(stderr, "failed.\nIt`s possible that texture you`re trying"
                         " to load is too large, or unsupported texture format.\n");
             SDL_FreeSurface(tmpSurf);
             return 1;
@@ -66,7 +66,7 @@ int initVideo()
     fprintf(stderr, "Calling %s:\n > Starting SDL...\n", __FUNCTION__);
     if(SDL_Init(SDL_INIT_VIDEO))
     {
-        fprintf(stderr, "Unable to set up SDL\n  (%s)\n", SDL_GetError());
+        fprintf(stderr, "Unable to set up SDL (%s)\n", SDL_GetError());
         return 1;
     }
 
@@ -107,7 +107,11 @@ int initVideo()
 int init()
 {
     fprintf(stderr, "Test Stuff " VERSION "\n");
-    if(initVideo()|loadImages())
+
+    if(initVideo())
+        return 1;
+
+    if(loadImages())
         return 1;
 
     kpCreateSpace();

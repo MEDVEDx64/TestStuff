@@ -60,6 +60,7 @@ int dbDirSucceeded(t_Direction dir)
 
 #define PATHFIND_TIMEOUT 0x400
 
+/* Randomizes DrunkenBot's direction */
 void dbRandomize()
 {
     int timeout = PATHFIND_TIMEOUT;

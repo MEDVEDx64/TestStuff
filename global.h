@@ -10,7 +10,7 @@ Comes under the terms of GNU General Public License v.2.0.
 #ifndef GLOBAL_H_INCLUDED
 #define GLOBAL_H_INCLUDED
 
-#define VERSION_ "2.0.1_beta3"
+#define VERSION_ "2.1.0"
 #ifdef DEBUG
 #   define VERSION VERSION_ " (debug build)"
 #else
@@ -43,25 +43,25 @@ extern char appState;
 #endif
 
 #define FNAMES_DEFINITION                                                           \
-    FULLPATH"content/intro.png",                                                    \
-    FULLPATH"content/mmenu-bg.png",                                                 \
-    FULLPATH"content/mmenu-title.png",                                              \
-    FULLPATH"content/mmenu-start.png",                                              \
-    FULLPATH"content/mmenu-start-on.png",                                           \
-    FULLPATH"content/mmenu-exit.png",                                               \
-    FULLPATH"content/mmenu-exit-on.png",                                            \
-    FULLPATH"content/player.png",                                                   \
-    FULLPATH"content/idiot.png",                                                    \
-    FULLPATH"content/drunkenbot.png",                                               \
-    FULLPATH"content/portal.png",                                                   \
-    FULLPATH"content/items.png",                                                    \
-    FULLPATH"content/font.png",                                                     \
-    FULLPATH"content/bullet.png",                                                   \
-    FULLPATH"content/darkness.png",                                                 \
-    FULLPATH"content/turret.png",                                                   \
-    FULLPATH"content/boss.png",                                                     \
-    FULLPATH"content/hpbar.png",                                                    \
-    FULLPATH"content/gameover.png"
+    FULLPATH "content/intro.png",                                                    \
+    FULLPATH "content/mmenu-bg.png",                                                 \
+    FULLPATH "content/mmenu-title.png",                                              \
+    FULLPATH "content/mmenu-start.png",                                              \
+    FULLPATH "content/mmenu-start-on.png",                                           \
+    FULLPATH "content/mmenu-exit.png",                                               \
+    FULLPATH "content/mmenu-exit-on.png",                                            \
+    FULLPATH "content/player.png",                                                   \
+    FULLPATH "content/idiot.png",                                                    \
+    FULLPATH "content/drunkenbot.png",                                               \
+    FULLPATH "content/portal.png",                                                   \
+    FULLPATH "content/items.png",                                                    \
+    FULLPATH "content/font.png",                                                     \
+    FULLPATH "content/bullet.png",                                                   \
+    FULLPATH "content/darkness.png",                                                 \
+    FULLPATH "content/turret.png",                                                   \
+    FULLPATH "content/boss.png",                                                     \
+    FULLPATH "content/hpbar.png",                                                    \
+    FULLPATH "content/gameover.png"
 
 struct Image {
     GLuint gl_tex;

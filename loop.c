@@ -26,6 +26,9 @@ Comes under the terms of GNU General Public License v.2.0.
 
 #include <SDL/SDL.h>
 
+/* Bottom text line */
+static char buff[0x1000];
+
 void loop()
 {
 
@@ -59,10 +62,7 @@ void loop()
 
         case APPSTATE_GAME:
 
-            levelLoop();
-
             /* Text string setup */
-            char buff[0x1000];
             sprintf(buff,
                     "backups: %d, keys: %d of %d, level: %d",
                     PLAYER_HP, PLAYER_KEYS,
@@ -87,6 +87,8 @@ void loop()
             /* It also freezes the game */
             if(kpGetState(SDLK_s)) break;
 #endif
+
+            levelLoop();
 
             /* Player's keys handling */
             if(kpGetState(SDLK_UP))         playerWalk(DIR_UP);
